@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
-    // Public
+    // Public / Authentikasi
     public function loginPage()
     {
         return view('public.login');
@@ -50,7 +50,7 @@ class PagesController extends Controller
         ]);
     }
 
-    // Admin (bisa di protek pakai middleware nanti) atau bisa langsung manipulasi level
+    // Admin (bisa di protek pakai middleware nanti) atau disini: manipulasi level
     public function adminDashboardPage()
     {
         return view('general.dashboard', ['level'  => 'admin']);

@@ -9,8 +9,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test-array', [PagesController::class, 'testArray']);
-
 Route::get('/tambahkan-buku', [BukuController::class, 'showView'])->name('view.buku');
 Route::post('/tambahkan-buku', [BukuController::class, 'postView'])->name('post.buku');
 Route::get('/test-bootstrap', function () {
