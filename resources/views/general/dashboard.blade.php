@@ -3,7 +3,7 @@
 @section('title', 'Dashboard - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
 
 @section('content_title', 'Dashboard')
-@section('content_subtitle', 'Halaman Dashboard Administrator')
+@section('content_subtitle', 'Halaman Dashboard ' . ($level == 'admin' ? 'Administrator' : ''))
 
 @section('main')
     <div class="row">
@@ -52,4 +52,9 @@
             </div>
         </div>
     </div>
+    @if ($level == 'admin')
+        <a href="/dashboard">Masuk Mode Siswa</a>
+    @elseif($level == 'siswa')
+        <a href="/admin/dashboard">Masuk Mode Admin</a>
+    @endif
 @endsection

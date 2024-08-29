@@ -131,5 +131,60 @@
             <input type="submit" value="Selesaikan Peminjaman" class="btn btn-primary" />
         </div>
     </form>
+@elseif($action == 'siswa')
+    <div class="card shadow-sm py-2 px-3">
+        <table id="datatablesSimple">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Buku</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Tgl Pinjam</th>
+                    <th scope="col">Tgl Kembali</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Tere Liye - Buku 1</td>
+                    <td>
+                        <div class="py-2">
+                            <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                        </div>
+                    </td>
+                    <td>2024-08-25</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>
+                        Tere Liye - Cara membuat website di
+                        Laravel
+                    </td>
+                    <td>
+                        <div class="py-2">
+                            <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                        </div>
+                    </td>
+                    <td>2024-08-25</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>
+                        Haynes Manual - Repair Manuals &
+                        Guides For Honda Accord 2003 - 2012
+                    </td>
+                    <td>
+                        <div class="py-2">
+                            <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                        </div>
+                    </td>
+                    <td>2024-08-25</td>
+                    <td>2024-08-27</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 @endif
 @endsection

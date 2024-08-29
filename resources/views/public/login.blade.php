@@ -1,4 +1,4 @@
-@extends('template.layout')
+@extends('template.public-layout')
 
 @section('title', 'Login - Web Perpustakaan')
 

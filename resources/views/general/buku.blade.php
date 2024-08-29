@@ -190,5 +190,70 @@
             </div>
         </form>
     </div>
+@elseif($action == 'siswa')
+    <div>
+        <button type="button" class="btn btn-outline-dark mx-auto">
+            Novel
+        </button>
+
+        <button type="button" class="btn btn-outline-dark mx-auto">
+            Komik
+        </button>
+
+        <button type="button" class="btn btn-outline-dark mx-auto">
+            Anak-anak
+        </button>
+
+        <button type="button" class="btn btn-outline-dark mx-auto">
+            Petunjuk manual
+        </button>
+    </div>
+    <div class="row gap-4 mt-4">
+        <div class="card col-12 col-md-4 col-lg-3">
+            <div class="card-body">
+                <img src="./img/book.png" alt="Bulan" class="book-img" />
+                <hr />
+                <p class="text-center fw-bolder fs-4 my-0">
+                    Bulan
+                </p>
+                <p class="text-center mb-3">
+                    Ditulis oleh Tere Liye
+                </p>
+                <button class="btn btn-primary d-block mx-auto" type="submit">
+                    Pinjam
+                </button>
+            </div>
+        </div>
+        <div class="card col-12 col-md-4 col-lg-3">
+            <div class="card-body">
+                <img src="./img/book.png" alt="Bulan" class="book-img" />
+                <hr />
+                <p class="text-center fw-bolder fs-4 my-0">
+                    Bulan
+                </p>
+                <p class="text-center mb-3">
+                    Ditulis oleh Tere Liye
+                </p>
+                <button class="btn btn-primary d-block mx-auto" type="submit">
+                    Pinjam
+                </button>
+            </div>
+        </div>
+        <div class="card col-12 col-md-4 col-lg-3">
+            <div class="card-body">
+                <img src="./img/book.png" alt="Bulan" class="book-img" />
+                <hr />
+                <p class="text-center fw-bolder fs-4 my-0">
+                    Bulan
+                </p>
+                <p class="text-center mb-3">
+                    Ditulis oleh Tere Liye
+                </p>
+                <button class="btn btn-primary d-block mx-auto" type="submit">
+                    Pinjam
+                </button>
+            </div>
+        </div>
+    </div>
 @endif
 @endsection

@@ -20,7 +20,34 @@ class PagesController extends Controller
     // Siswa
     public function dashboardPage()
     {
-        return view('general.dashboard', ['level'  => 'siswa']);
+        return view('general.dashboard', [
+            'level'  => 'siswa',
+            'action' => 'siswa'
+        ]);
+    }
+
+    public function bukuPage()
+    {
+        return view('general.buku', [
+            'level'  => 'siswa',
+            'action' => 'siswa'
+        ]);
+    }
+
+    public function peminjamanPage()
+    {
+        return view('general.peminjaman', [
+            'level'  => 'siswa',
+            'action' => 'siswa'
+        ]);
+    }
+
+    public function pengaturanPage()
+    {
+        return view('general.pengaturan', [
+            'level'  => 'siswa',
+            'action' => 'siswa'
+        ]);
     }
 
     // Admin (bisa di protek pakai middleware nanti) atau bisa langsung manipulasi level
@@ -94,16 +121,10 @@ class PagesController extends Controller
         ]);
     }
 
-    public function adminPengaturanPage($action, Request $request)
+    public function adminPengaturanPage()
     {
-        if (!in_array($action, ['show', 'create', 'edit', 'delete'])) {
-            return abort(404);
-        }
-
         return view('general.pengaturan', [
             'level'  => 'admin',
-            'action' => $action,
-            'editID' => $request->id,
         ]);
     }
 }

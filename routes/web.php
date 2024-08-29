@@ -18,17 +18,24 @@ Route::get('/test-bootstrap', function () {
 });
 
 Route::controller(PagesController::class)->group(function () {
+    // Public
     Route::get('/login', 'loginPage')->name('login');
     Route::get('/register', 'registerPage')->name('register');
-    Route::get('/dashboard', 'dashboardPage')->name('dashboard');
 
+    // Siswa
+    Route::get('/dashboard', 'dashboardPage')->name('dashboard');
+    Route::get('/buku', 'bukuPage')->name('buku');
+    Route::get('/peminjaman', 'peminjamanPage')->name('peminjaman');
+    Route::get('/pengaturan', 'pengaturanPage')->name('pengaturan');
+
+    // Admin (middleware mungkin nanti)
     Route::prefix('/admin')->group(function () {
-        Route::get('/dashboard', 'adminDashboardPage')->name('dashboard.admin');
-        Route::get('/buku/{action}', 'adminBukuPage')->name('dashboard.admin');
-        Route::get('/kategori/{action}', 'adminKategoriPage')->name('dashboard.admin');
-        Route::get('/penulis/{action}', 'adminPenulisPage')->name('dashboard.admin');
-        Route::get('/penerbit/{action}', 'adminPenerbitPage')->name('dashboard.admin');
-        Route::get('/peminjaman/{action}', 'adminPeminjamanPage')->name('dashboard.admin');
-        Route::get('/pengaturan/{action}', 'adminPengaturanPage')->name('dashboard.admin');
+        Route::get('/dashboard', 'adminDashboardPage')->name('admin.dashboard');
+        Route::get('/buku/{action}', 'adminBukuPage')->name('admin.buku');
+        Route::get('/kategori/{action}', 'adminKategoriPage')->name('admin.kategori');
+        Route::get('/penulis/{action}', 'adminPenulisPage')->name('admin.penulis');
+        Route::get('/penerbit/{action}', 'adminPenerbitPage')->name('admin.penerbit');
+        Route::get('/peminjaman/{action}', 'adminPeminjamanPage')->name('admin.peminjaman');
+        Route::get('/pengaturan', 'adminPengaturanPage')->name('admin.pengaturan');
     });
 });

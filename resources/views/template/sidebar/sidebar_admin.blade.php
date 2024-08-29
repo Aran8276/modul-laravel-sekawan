@@ -45,7 +45,7 @@
                     </div>
                     Pengaturan
                 </a>
-                <a class="nav-link" href="/admin/kategori/show">
+                <a class="nav-link" href="/login">
                     <div class="sb-nav-link-icon">
                         <i class="fas fa-right-from-bracket"></i>
                     </div>

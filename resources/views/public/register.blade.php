@@ -1,4 +1,4 @@
-@extends('template.layout')
+@extends('template.public-layout')
 
 @section('title', 'Daftar - Web Perpustakaan')
 
@@ -12,8 +12,9 @@
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header">
+                                        <img src="{{ asset('img/book.png') }}" alt="..." class="img-logo">
                                         <h3 class="text-center font-weight-light my-4">
-                                            Buat Akun
+                                            Buat Akun - Web Perpustakaan
                                         </h3>
                                     </div>
                                     <div class="card-body">

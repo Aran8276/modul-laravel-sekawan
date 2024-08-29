@@ -6,7 +6,7 @@
 
 @section('main')
     @if ($action == 'show')
-        @section('content_subtitle', 'Daftar penerbit buku')
+        @section('content_subtitle', 'Daftar penulis buku')
         <div>
             <div class="card shadow-sm py-2 px-3">
                 <table id="datatablesSimple">
