@@ -4,6 +4,10 @@
     display: block;
 }
 
+.book-img {
+    width: 100px;
+}
+
 @media only screen and (max-width: 576px) {
     .login-container {
         padding: 50px 30px;

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Peminjaman - Siswa</title>
+        <link rel="stylesheet" href="./css/bootstrap.min.css" />
+        <link href="./css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="./styles.css" />
+        <script
+            src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="#">Siswa Dashboard</a>
+            <!-- Sidebar Toggle-->
+            <button
+                class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+                id="sidebarToggle"
+                href="#!"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav
+                    class="sb-sidenav accordion sb-sidenav-dark"
+                    id="sidenavAccordion"
+                >
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Menu</div>
+                            <a class="nav-link" href="siswa_dashboard.html">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                Dashboard
+                            </a>
+                            <a class="nav-link" href="siswa_buku.html">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                Buku
+                            </a>
+                            <a class="nav-link" href="siswa_peminjaman.html">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-clipboard"></i>
+                                </div>
+                                Peminjaman
+                            </a>
+                            <a class="nav-link" href="siswa_pengaturan.html">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-gear"></i>
+                                </div>
+                                Pengaturan
+                            </a>
+                            <a class="nav-link" href="login.html">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-right-from-bracket"></i>
+                                </div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Siswa
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Peminjaman Buku</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">
+                                Halaman Peminjaman Buku Saya
+                            </li>
+                        </ol>
+                        <div class="card shadow-sm py-2 px-3">
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Buku</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Tgl Pinjam</th>
+                                        <th scope="col">Tgl Kembali</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Tere Liye - Buku 1</td>
+                                        <td>
+                                            <div class="py-2">
+                                                <span
+                                                    class="bg-danger px-3 py-2 text-white rounded-pill"
+                                                    >MEMINJAM</span
+                                                >
+                                            </div>
+                                        </td>
+                                        <td>2024-08-25</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>
+                                            Tere Liye - Cara membuat website di
+                                            Laravel
+                                        </td>
+                                        <td>
+                                            <div class="py-2">
+                                                <span
+                                                    class="bg-danger px-3 py-2 text-white rounded-pill"
+                                                    >MEMINJAM</span
+                                                >
+                                            </div>
+                                        </td>
+                                        <td>2024-08-25</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>
+                                            Haynes Manual - Repair Manuals &
+                                            Guides For Honda Accord 2003 - 2012
+                                        </td>
+                                        <td>
+                                            <div class="py-2">
+                                                <span
+                                                    class="bg-success px-3 py-2 text-white rounded-pill"
+                                                    >SELESAI</span
+                                                >
+                                            </div>
+                                        </td>
+                                        <td>2024-08-25</td>
+                                        <td>2024-08-27</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div
+                            class="d-flex align-items-center justify-content-between small"
+                        >
+                            <div class="text-muted">
+                                Copyright &copy; Web Perpustakaan 2023
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="./js/bootstrap.bundle.min.js"></script>
+        <script src="js/scripts.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+</html>
