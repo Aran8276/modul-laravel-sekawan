@@ -7,13 +7,29 @@ use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    public function showView()
+    // public function showView()
+    // {
+    //     return view('book-form');
+    // }
+
+    // public function postView(SimpanBukuRequest $request)
+    // {
+    //     return $request;
+    // }
+
+    // ONLY USED FOR CUD (Create, update, delete) / POST REQUESTS ONLY. READ / GET IS DEFINED IN `PagesController`
+    public function create()
     {
-        return view('book-form');
+        // create to database
     }
 
-    public function postView(SimpanBukuRequest $request)
+    public function update()
     {
-        return $request;
+        // read parameter && update to database
+    }
+
+    public function delete()
+    {
+        // read parameter && delete to database
     }
 }

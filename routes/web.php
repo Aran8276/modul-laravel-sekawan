@@ -6,7 +6,7 @@ use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/tambahkan-buku', [BukuController::class, 'showView'])->name('view.buku');
@@ -37,3 +37,7 @@ Route::controller(PagesController::class)->group(function () {
         Route::get('/pengaturan', 'adminPengaturanPage')->name('admin.pengaturan');
     });
 });
+
+/*
+Buku, Kategori Buku, Peminjaman, Peminjaman Detail, Penulis, Rak, User
+*/

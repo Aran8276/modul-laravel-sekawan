@@ -12,13 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('user_id', length: 16);
+            $table->string('user_nama', length: 50);
+            $table->string('user_alamat', length: 50);
+            $table->string('user_username', length: 50);
+            $table->string('user_email', length: 50)->unique();
+            $table->char('user_notelp', length: 13);
+            $table->string('user_password', length: 50);
+            $table->enum('level', ['admin', 'anggota']);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->primary('user_id');
+            $table->foreign('user_id')->references('peminjaman_user_id')->on('peminjaman')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

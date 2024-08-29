@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
+use App\Models\Rak;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -50,7 +52,7 @@ class PagesController extends Controller
         ]);
     }
 
-    // Admin (bisa di protek pakai middleware nanti) atau disini: manipulasi level
+    // Admin (bisa di protek pakai middleware nanti) atau disini:  manipulasi level
     public function adminDashboardPage()
     {
         return view('general.dashboard', ['level'  => 'admin']);
@@ -58,14 +60,17 @@ class PagesController extends Controller
 
     public function adminBukuPage($action, Request $request)
     {
-        if (!in_array($action, ['show', 'create', 'edit', 'delete'])) {
+        if (!in_array($action, ['show', 'create', 'edit', 'delete', 'create-rak', 'edit-rak'])) {
             return abort(404);
         }
+        // $buku_all = Buku::all();
+        $rak_all = Rak::all();
 
         return view('general.buku', [
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
+            'data_rak' => $rak_all,
         ]);
     }
 

@@ -43,7 +43,166 @@
                     </tbody>
                 </table>
             </div>
-            <a href="create" class="btn btn-primary my-3">Buat Buku</a>
+            <div>
+                <a href="create" class="btn btn-primary my-3">Buat Buku</a>
+            </div>
+
+            <div class="card shadow-sm py-2 px-3 mt-4">
+                <table id="datatablesSimple2">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Rak</th>
+                            <th>Lokasi Rak</th>
+                            <th>Kapasitas Rak</th>
+                            <th>
+                                <div class="px-2">Aksi</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- variabel data as index123 => variabel utk akses subdata melalui [''] -->
+                        @foreach ($data_rak as $index => $rak)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $rak['rak_nama'] }}</td>
+                                <td>{{ $rak['rak_lokasi'] }}</td>
+                                <td>{{ $rak['rak_kapasitas'] }} buku</td>
+                                <td style="text-align: center">
+                                    <a class="px-2" href="edit-rak?id={{ $rak['rak_id'] }}">Edit</a>
+                                    <a class="text-danger" href="delete-rak?id={{ $rak['rak_id'] }}">Hapus</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <a href="create-rak" class="btn btn-primary my-3">Tambahkan Rak Buku</a>
+            </div>
+        </div>
+    @elseif($action == 'create-rak')
+        <div class="mb-5">
+            <form action="">
+                <div>
+                    <label for="rak_nama" class="form-label">
+                        Nama Rak *
+                    </label>
+                    <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" required />
+                </div>
+                <div class="mt-4">
+                    <label for="rak_lokasi" class="form-label">
+                        Lokasi Rak *
+                    </label>
+                    <input type="text" class="form-control" id="deskripsi_kategori" name="deskripsi_kategori" required />
+                </div>
+                <div class="mt-4">
+                    <label for="rak_kapasitas" class="form-label">
+                        Kapasitas Rak *
+                    </label>
+                    <select class="form-select" id="deskripsi_kategori" name="deskripsi_kategori" required>
+                        <option selected>
+                            -Pilih Kapasitas Rak-
+                        </option>
+                        <option value="10">
+                            10
+                        </option>
+                        <option value="15">
+                            15
+                        </option>
+                        <option value="20">
+                            20
+                        </option>
+                        <option value="25">
+                            25
+                        </option>
+                        <option value="30">
+                            30
+                        </option>
+                        <option value="35">
+                            35
+                        </option>
+                        <option value="40">
+                            40
+                        </option>
+                        <option value="45">
+                            45
+                        </option>
+                        <option value="50">
+                            50
+                        </option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <input type="submit" value="Tambahkan Rak" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    @elseif($action == 'edit-rak')
+        <div class="mb-5">
+            <form action="">
+                <div>
+                    <label class="form-label">
+                        ID Rak *
+                    </label>
+                    <input type="text" class="form-control" disabled value="{{ $editID }}" />
+                </div>
+                <div class="mt-4">
+                    <label for="rak_nama" class="form-label">
+                        Nama Rak *
+                    </label>
+                    <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" required />
+                </div>
+                <div class="mt-4">
+                    <label for="rak_lokasi" class="form-label">
+                        Lokasi Rak *
+                    </label>
+                    <input type="text" class="form-control" id="deskripsi_kategori" name="deskripsi_kategori" required />
+                </div>
+                <div class="mt-4">
+                    <label for="rak_kapasitas" class="form-label">
+                        Kapasitas Rak *
+                    </label>
+                    <select class="form-select" id="deskripsi_kategori" name="deskripsi_kategori" required>
+                        <option selected>
+                            -Pilih Kapasitas Rak-
+                        </option>
+                        <option value="10">
+                            10
+                        </option>
+                        <option value="15">
+                            15
+                        </option>
+                        <option value="20">
+                            20
+                        </option>
+                        <option value="25">
+                            25
+                        </option>
+                        <option value="30">
+                            30
+                        </option>
+                        <option value="35">
+                            35
+                        </option>
+                        <option value="40">
+                            40
+                        </option>
+                        <option value="45">
+                            45
+                        </option>
+                        <option value="50">
+                            50
+                        </option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <input type="submit" value="Tambahkan Rak" class="btn btn-primary" />
+                </div>
+
+            </form>
         </div>
     @elseif($action == 'create')
     @section('content_subtitle', 'Form tambah buku')

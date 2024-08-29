@@ -39,7 +39,7 @@
                     </div>
                     Peminjaman
                 </a>
-                <a class="nav-link" href="/admin/kategori/show">
+                <a class="nav-link" href="/admin/pengaturan">
                     <div class="sb-nav-link-icon">
                         <i class="fas fa-gear"></i>
                     </div>
