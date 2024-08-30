@@ -124,12 +124,19 @@
                     Nama Rak *
                 </label>
                 <input type="text" class="form-control" id="rak_nama" name="rak_nama" required />
+                @error('rak_nama')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mt-4">
                 <label for="rak_lokasi" class="form-label">
                     Lokasi Rak *
                 </label>
                 <input type="text" class="form-control" id="rak_lokasi" name="rak_lokasi" required />
+                @error('rak_lokasi')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+
             </div>
             <div class="mt-4">
                 <label for="rak_kapasitas" class="form-label">
@@ -167,6 +174,9 @@
                         50
                     </option>
                 </select>
+                @error('rak_kapasitas')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="mt-4">
                 <input type="submit" value="Tambahkan Rak" class="btn btn-primary" />
@@ -234,7 +244,7 @@
         </form>
     </div>
 @elseif($action == 'create')
-    @section('content_subtitle', 'Form tambah buku')
+    @section('content_subtitle', 'Form edit rak buku')
     <div class="mb-5">
         <form action="">
             <div class="row gap-3">

@@ -22,7 +22,9 @@ class SimpanPenulisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'penulis_nama' => 'max:50|required',
+            'penulis_tmptlahir' => 'max:15|required',
+            'penulis_tgllahir' => 'required',
         ];
     }
 }

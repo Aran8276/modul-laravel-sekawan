@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Buku;
 use App\Models\Rak;
+use App\Models\Buku;
+use App\Models\Penulis;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PenulisController;
 
 class PagesController extends Controller
 {
@@ -63,7 +65,6 @@ class PagesController extends Controller
         if (!in_array($action, ['show', 'create', 'edit', 'delete', 'create-rak', 'edit-rak', 'delete-rak'])) {
             return abort(404);
         }
-        // $buku_all = Buku::all();
         $rak_all = Rak::all();
 
         if ($action == 'edit-rak') {
@@ -109,10 +110,30 @@ class PagesController extends Controller
             return abort(404);
         }
 
+        $data = Penulis::all();
+
+        if ($action == 'edit') {
+            $data = Penulis::find($request->id);
+            return view('general.penulis', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data_penulis' => $data,
+            ]);
+        }
+
+        if ($action == 'delete') {
+            $data = Penulis::find($request->id);
+            PenulisController::delete($request->id);
+            return redirect()->route('admin.penulis', ['action' => 'show'])->with('success', 'Penulis ' . $data->penulis_nama . ' berhasil dihapus!');
+        }
+
+
         return view('general.penulis', [
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
+            'data_penulis' => $data,
         ]);
     }
 

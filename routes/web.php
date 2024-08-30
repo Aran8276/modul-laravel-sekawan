@@ -41,6 +41,10 @@ Route::controller(PagesController::class)->group(function () {
             Route::post('/rak', [RakController::class, 'store'])->name('action.rak.create');
             Route::put('/rak/{id}', [RakController::class, 'update'])->name('action.rak.update');
             Route::delete('/rak/{id}', [RakController::class, 'delete'])->name('action.rak.delete');
+
+            Route::post('/penulis', [PenulisController::class, 'store'])->name('action.penulis.create');
+            Route::put('/penulis/{id}', [PenulisController::class, 'update'])->name('action.penulis.update');
+            Route::delete('/penulis/{id}', [PenulisController::class, 'delete'])->name('action.penulis.delete');
         });
     });
 });
