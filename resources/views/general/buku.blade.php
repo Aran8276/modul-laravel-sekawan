@@ -19,38 +19,111 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>ID</th>
                             <th>Judul Buku</th>
                             <th>Penulis Buku</th>
-                            <th>Penerbit Buku</th>
-                            <th>Tahun Terbit</th>
-                            <th>Kategori Buku</th>
                             <th>Rak Buku</th>
-                            <th>ISBN</th>
                             <th>
                                 <div class="px-2">Aksi</div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Bulan</td>
-                            <td>Tere Liye</td>
-                            <td>Gramedia</td>
-                            <td>2018</td>
-                            <td>Fiksi</td>
-                            <td>L-4</td>
-                            <td>12345464564564</td>
-                            <td style="text-align: center">
-                                <a class="px-2" href="edit?id=IDIniAkanTampilDiParameterURL">Edit</a>
-                                <a class="text-danger" href="edit?id=IDIniAkanTampilDiParameterURL">Hapus</a>
-                            </td>
-                        </tr>
+                        @foreach ($data_buku as $index => $buku)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $buku['buku_id'] }}</td>
+                                <td>{{ $buku['buku_judul'] }}</td>
+                                <td>{{ $buku['buku_penulis'] }}</td>
+                                <td>{{ $buku['buku_rak'] }}</td>
+                                <td style="text-align: center">
+                                    <a class="px-2" href="edit?id={{ $buku['buku_id'] }}">Edit</a>
+                                    <a class="text-danger" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modalDelete{{ $index + 1 }}">Hapus</a>
+                                    <!-- Button trigger modal -->
+
+                                    <!-- Modal Content -->
+                                    <div class="modal fade" id="modalDelete{{ $index + 1 }}" data-bs-backdrop="static"
+                                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                                        Hapus Data</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin ingin menghapus buku buku
+                                                    {{ $buku['buku_judul'] }}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Tutup</button>
+                                                    <a href="delete?id={{ $buku['buku_id'] }}"
+                                                        class="btn btn-danger">Konfirmasi</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
             <div>
                 <a href="create" class="btn btn-primary my-3">Buat Buku</a>
+                <button href="create" class="btn btn-secondary my-3" data-bs-toggle="modal" data-bs-target="#modalTable">
+                    Perbesar Table
+                </button>
+                <div class="modal fade" id="modalTable" tabindex="-1" aria-labelledby="modalTable" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalTable">Table buku</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="datatablesSimple3">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>ID</th>
+                                            <th>Judul Buku</th>
+                                            <th>Penulis Buku</th>
+                                            <th>Penerbit Buku</th>
+                                            <th>Tahun Terbit</th>
+                                            <th>Kategori Buku</th>
+                                            <th>Rak Buku</th>
+                                            <th>ISBN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data_buku as $index => $buku)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $buku['buku_id'] }}</td>
+                                                <td>{{ $buku['buku_judul'] }}</td>
+                                                <td>{{ $buku['buku_penulis'] }}</td>
+                                                <td>{{ $buku['buku_penerbit'] }}</td>
+                                                <td>{{ $buku['buku_thnterbit'] }}</td>
+                                                <td>{{ $buku['buku_kategori'] }}</td>
+                                                <td>{{ $buku['buku_rak'] }}</td>
+                                                <td>{{ $buku['buku_isbn'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="card shadow-sm py-2 px-3 mt-4">
@@ -246,62 +319,97 @@
 @elseif($action == 'create')
     @section('content_subtitle', 'Form edit rak buku')
     <div class="mb-5">
-        <form action="">
+        <form action="{{ route('action.buku.create') }}" method="POST">
+            @csrf
             <div class="row gap-3">
                 <div class="col-12 col-md-4 form-group">
-                    <label for="judul_buku" class="form-label">Judul Buku *</label>
-                    <input type="text" name="judul_buku" id="judul_buku" class="form-control"
+                    <label for="buku_judul" class="form-label">Judul Buku *</label>
+                    <input type="text" name="buku_judul" id="buku_judul" class="form-control"
                         placeholder="Masukkan judul buku" />
+                    @error('buku_judul')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="penulis_buku" class="form-label">Penulis Buku *</label>
-                    <select name="penulis_buku" id="penulis_buku" class="form-control">
-                        <option selected>
+                    <label for="buku_penulis_id" class="form-label">Penulis Buku *</label>
+                    <select name="buku_penulis_id" id="buku_penulis_id" class="form-control">
+                        <option selected value="">
                             -Pilih Penulis Buku-
                         </option>
-                        <option value="Tere Liye">
-                            Tere Liye
-                        </option>
+                        @foreach ($data_fk['penulis'] as $data)
+                            <option value={{ $data->penulis_id }}>
+                                {{ $data->penulis_nama }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('buku_penulis_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="penerbit_buku" class="form-label">Penerbit Buku *</label>
-                    <select name="penerbit_buku" id="penerbit_buku" class="form-control">
-                        <option selected>
+                    <label for="buku_penerbit_id" class="form-label">Penerbit Buku *</label>
+                    <select name="buku_penerbit_id" id="buku_penerbit_id" class="form-control">
+                        <option selected value="">
                             -Pilih Penerbit Buku-
                         </option>
-                        <option value="Gramedia">
-                            Gramedia
-                        </option>
+                        @foreach ($data_fk['penerbit'] as $data)
+                            <option value={{ $data->penerbit_id }}>
+                                {{ $data->penerbit_nama }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('buku_penerbit_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="tahun_terbit" class="form-label">Tahun Terbit *</label>
-                    <input type="text" name="tahun_terbit" id="tahun_terbit" class="form-control"
+                    <label for="buku_thnterbit" class="form-label">Tahun Terbit *</label>
+                    <input type="text" name="buku_thnterbit" id="buku_thnterbit" class="form-control"
                         placeholder="Masukkan tahun terbit" />
+                    @error('buku_thnterbit')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="kategori_buku" class="form-label">Kategori Buku *</label>
-                    <select name="kategori_buku" id="kategori_buku" class="form-control">
-                        <option selected>
+                    <label for="buku_kategori_id" class="form-label">Kategori Buku *</label>
+                    <select name="buku_kategori_id" id="buku_kategori_id" class="form-control">
+                        <option selected value="">
                             -Pilih Kategori Buku-
                         </option>
-                        <option value="Fiksi">Fiksi</option>
+                        @foreach ($data_fk['kategori'] as $data)
+                            <option value={{ $data->kategori_id }}>
+                                {{ $data->kategori_nama }}
+                            </option>
+                        @endforeach
+
                     </select>
+                    @error('buku_kategori_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="rak_buku" class="form-label">Rak Buku *</label>
-                    <select name="rak_buku" id="rak_buku" class="form-control">
-                        <option selected>
+                    <label for="buku_rak_id" class="form-label">Rak Buku *</label>
+                    <select name="buku_rak_id" id="buku_rak_id" class="form-control">
+                        <option selected value="">
                             -Pilih Rak Buku-
                         </option>
-                        <option value="4-L">4-L</option>
+                        @foreach ($data_fk['rak'] as $data)
+                            <option value={{ $data->rak_id }}>
+                                {{ $data->rak_nama }} ({{ $data->rak_lokasi }})
+                            </option>
+                        @endforeach
                     </select>
+                    @error('buku_rak_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="isbn" class="form-label">Nomor ISBN *</label>
-                    <input type="text" name="isbn" id="isbn" class="form-control"
+                    <label for="buku_isbn" class="form-label">Nomor ISBN *</label>
+                    <input type="text" name="buku_isbn" id="buku_isbn" class="form-control"
                         placeholder="Masukkan nomor ISBN" />
+                    @error('buku_isbn')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="row my-3">
@@ -316,67 +424,107 @@
 @elseif($action == 'edit')
     @section('content_subtitle', 'Form edit buku')
     <div class="mb-5">
-        <form action="">
+        <form action="{{ route('action.buku.update', ['id' => $editID]) }}" method="POST">
+            @csrf
+            @method('PUT')
             <div class="row gap-3">
                 <div class="col-12 col-md-4 form-group">
-                    <label for="id" class="form-label">ID Buku </label>
-                    <input type="text" name="judul_buku_edit" id="id" class="form-control"
-                        value="{{ $editID }}" disabled />
+                    <label class="form-label">ID Buku </label>
+                    <input type="text" class="form-control" value="{{ $editID }}" disabled />
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="judul_buku_edit" class="form-label">Judul Buku *</label>
-                    <input type="text" name="judul_buku_edit" id="judul_buku_edit" class="form-control"
-                        placeholder="Masukkan judul buku" />
+                    <label for="buku_judul" class="form-label">Judul Buku *</label>
+                    <input type="text" name="buku_judul" id="buku_judul" class="form-control"
+                        placeholder="Masukkan judul buku" value="{{ $data_buku[0]['buku_judul'] }}" />
+                    @error('buku_judul')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="penulis_buku_edit" class="form-label">Penulis Buku *</label>
-                    <select name="penulis_buku_edit" id="penulis_buku_edit" class="form-control">
-                        <option selected>
+                    <label for="buku_penulis_id" class="form-label">Penulis Buku *</label>
+                    <select name="buku_penulis_id" id="buku_penulis_id" class="form-control">
+                        <option value="">
                             -Pilih Penulis Buku-
                         </option>
-                        <option value="Tere Liye">
-                            Tere Liye
-                        </option>
+
+                        @foreach ($data_fk['penulis'] as $data)
+                            <option value="{{ $data->penulis_id }}"
+                                {{ $data->penulis_nama == $data_buku[0]['buku_penulis'] ? 'selected' : '' }}>
+                                {{ $data->penulis_nama }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('buku_penulis_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="penerbit_buku_edit" class="form-label">Penerbit Buku *</label>
-                    <select name="penerbit_buku_edit" id="penerbit_buku_edit" class="form-control">
-                        <option selected>
+                    <label for="buku_penerbit_id" class="form-label">Penerbit Buku *</label>
+                    <select name="buku_penerbit_id" id="buku_penerbit_id" class="form-control">
+                        <option value="">
                             -Pilih Penerbit Buku-
                         </option>
-                        <option value="Gramedia">
-                            Gramedia
-                        </option>
+                        @foreach ($data_fk['penerbit'] as $data)
+                            <option value="{{ $data->penerbit_id }}"
+                                {{ $data->penerbit_nama == $data_buku[0]['buku_penerbit'] ? 'selected' : '' }}>
+                                {{ $data->penerbit_nama }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('buku_penerbit_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="tahun_terbit_edit" class="form-label">Tahun Terbit *</label>
-                    <input type="text" name="tahun_terbit_edit" id="tahun_terbit_edit" class="form-control"
-                        placeholder="Masukkan tahun terbit" />
+                    <label for="buku_thnterbit" class="form-label">Tahun Terbit *</label>
+                    <input type="text" name="buku_thnterbit" id="buku_thnterbit" class="form-control"
+                        placeholder="Masukkan tahun terbit" value="{{ $data_buku[0]['buku_thnterbit'] }}" />
+                    @error('buku_thnterbit')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="kategori_buku_edit" class="form-label">Kategori Buku *</label>
-                    <select name="kategori_buku_edit" id="kategori_buku_edit" class="form-control">
-                        <option selected>
+                    <label for="buku_kategori_id" class="form-label">Kategori Buku *</label>
+                    <select name="buku_kategori_id" id="buku_kategori_id" class="form-control">
+                        <option value="">
                             -Pilih Kategori Buku-
                         </option>
-                        <option value="Fiksi">Fiksi</option>
+                        @foreach ($data_fk['kategori'] as $data)
+                            <option value="{{ $data->kategori_id }}"
+                                {{ $data->kategori_nama == $data_buku[0]['buku_kategori'] ? 'selected' : '' }}>
+                                {{ $data->kategori_nama }}
+                            </option>
+                        @endforeach
+
                     </select>
+                    @error('buku_kategori_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="rak_buku_edit" class="form-label">Rak Buku *</label>
-                    <select name="rak_buku_edit" id="rak_buku_edit" class="form-control">
-                        <option selected>
+                    <label for="buku_rak_id" class="form-label">Rak Buku *</label>
+                    <select name="buku_rak_id" id="buku_rak_id" class="form-control">
+                        <option value="">
                             -Pilih Rak Buku-
                         </option>
-                        <option value="4-L">4-L</option>
+                        @foreach ($data_fk['rak'] as $data)
+                            <option value="{{ $data->rak_id }}"
+                                {{ $data->rak_lokasi == $data_buku[0]['buku_rak'] ? 'selected' : '' }}>
+                                {{ $data->rak_nama }} ({{ $data->rak_lokasi }})
+                            </option>
+                        @endforeach
                     </select>
+                    @error('buku_rak_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="col-12 col-md-4 form-group">
-                    <label for="isbn_edit" class="form-label">Nomor ISBN *</label>
-                    <input type="text" name="isbn_edit" id="isbn_edit" class="form-control"
-                        placeholder="Masukkan nomor ISBN" />
+                    <label for="buku_isbn" class="form-label">Nomor ISBN *</label>
+                    <input type="text" name="buku_isbn" id="buku_isbn" class="form-control"
+                        placeholder="Masukkan nomor ISBN" value="{{ $data_buku[0]['buku_isbn'] }}" />
+                    @error('buku_isbn')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="row my-3">

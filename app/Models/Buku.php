@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Rak;
+use App\Models\Penulis;
+use App\Models\Kategori;
+use App\Models\Penerbit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Buku extends Model
 {
@@ -23,4 +27,24 @@ class Buku extends Model
         'buku_isbn',
         'buku_thnterbit',
     ];
+
+    public function penulis()
+    {
+        return $this->belongsTo(Penulis::class, 'buku_penulis_id');
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'buku_kategori_id');
+    }
+
+    public function penerbit()
+    {
+        return $this->belongsTo(Penerbit::class, 'buku_penerbit_id');
+    }
+
+    public function rak()
+    {
+        return $this->belongsTo(Rak::class, 'buku_rak_id');
+    }
 }

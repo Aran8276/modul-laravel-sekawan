@@ -5,6 +5,12 @@
 @section('content_title', 'Penerbit')
 
 @section('main')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     @if ($action == 'show')
         @section('content_subtitle', 'Daftar penerbit buku')
         <div>

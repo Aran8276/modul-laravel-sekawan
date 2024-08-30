@@ -6,12 +6,19 @@
 @section('content_subtitle', 'Pengaturan akun ' . ($level == 'admin' ? 'admin' : 'siswa'))
 
 @section('main')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <form action="">
         <div class="row gap-3">
             <div class="col-12 col-md-4 form-group">
                 <label for="name" class="form-label">
                     Nama *</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan nama panjang" />
+                <input type="text" name="name" id="name" class="form-control"
+                    placeholder="Masukkan nama panjang" />
             </div>
             <div class="col-12 col-md-4 form-group">
                 <label for="username" class="form-label">Username *</label>

@@ -12,8 +12,9 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::get('/tambahkan-buku', [BukuController::class, 'showView'])->name('view.buku');
-Route::post('/tambahkan-buku', [BukuController::class, 'postView'])->name('post.buku');
+// Route::get('/tambahkan-buku', [BukuController::class, 'showView'])->name('view.buku');
+// Route::post('/tambahkan-buku', [BukuController::class, 'postView'])->name('post.buku');
+
 Route::get('/test-bootstrap', function () {
     return view('test-bootstrap');
 });
@@ -40,21 +41,35 @@ Route::controller(PagesController::class)->group(function () {
         Route::get('/pengaturan', 'adminPengaturanPage')->name('admin.pengaturan');
 
         Route::prefix('/api')->group(function () {
-            Route::post('/rak', [RakController::class, 'store'])->name('action.rak.create');
-            Route::put('/rak/{id}', [RakController::class, 'update'])->name('action.rak.update');
-            Route::delete('/rak/{id}', [RakController::class, 'delete'])->name('action.rak.delete');
+            Route::controller(RakController::class)->group(function () {
+                Route::post('/rak', 'store')->name('action.rak.create');
+                Route::put('/rak/{id}', 'update')->name('action.rak.update');
+                Route::delete('/rak/{id}', 'delete')->name('action.rak.delete');
+            });
 
-            Route::post('/penulis', [PenulisController::class, 'store'])->name('action.penulis.create');
-            Route::put('/penulis/{id}', [PenulisController::class, 'update'])->name('action.penulis.update');
-            Route::delete('/penulis/{id}', [PenulisController::class, 'delete'])->name('action.penulis.delete');
+            Route::controller(PenulisController::class)->group(function () {
+                Route::post('/penulis',  'store')->name('action.penulis.create');
+                Route::put('/penulis/{id}',  'update')->name('action.penulis.update');
+                Route::delete('/penulis/{id}', 'delete')->name('action.penulis.delete');
+            });
 
-            Route::post('/penerbit', [PenerbitController::class, 'store'])->name('action.penerbit.create');
-            Route::put('/penerbit/{id}', [PenerbitController::class, 'update'])->name('action.penerbit.update');
-            Route::delete('/penerbit/{id}', [PenerbitController::class, 'delete'])->name('action.penerbit.delete');
+            Route::controller(PenerbitController::class)->group(function () {
+                Route::post('/penerbit', 'store')->name('action.penerbit.create');
+                Route::put('/penerbit/{id}', 'update')->name('action.penerbit.update');
+                Route::delete('/penerbit/{id}', 'delete')->name('action.penerbit.delete');
+            });
 
-            Route::post('/kategori', [KategoriController::class, 'store'])->name('action.kategori.create');
-            Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('action.kategori.update');
-            Route::delete('/kategori/{id}', [KategoriController::class, 'delete'])->name('action.kategori.delete');
+            Route::controller(KategoriController::class)->group(function () {
+                Route::post('/kategori', 'store')->name('action.kategori.create');
+                Route::put('/kategori/{id}', 'update')->name('action.kategori.update');
+                Route::delete('/kategori/{id}', 'delete')->name('action.kategori.delete');
+            });
+
+            Route::controller(BukuController::class)->group(function () {
+                Route::post('/buku', 'store')->name('action.buku.create');
+                Route::put('/buku/{id}', 'update')->name('action.buku.update');
+                Route::delete('/buku/{id}', 'delete')->name('action.buku.delete');
+            });
         });
     });
 });

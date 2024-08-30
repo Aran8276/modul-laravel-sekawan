@@ -22,11 +22,13 @@ class SimpanBukuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'bookcode' => 'max:4|required',
-            'bookname' => 'min:10|max:40|required',
-            'publisher' => 'min:10|max:40|required',
-            'writer' => 'min:10|max:40|required',
-            'year' => 'max:4',
+            'buku_penulis_id' => 'required',
+            'buku_kategori_id' => 'required',
+            'buku_penerbit_id' => 'required',
+            'buku_rak_id' => 'required',
+            'buku_judul' => 'max:40|required',
+            'buku_isbn' => 'max:16|required',
+            'buku_thnterbit' => 'max:4|required',
         ];
     }
 }

@@ -65,10 +65,25 @@ class PagesController extends Controller
 
     public function adminBukuPage($action, Request $request)
     {
+        // ini sangat complex guys ternyata (buku)
         if (!in_array($action, ['show', 'create', 'edit', 'delete', 'create-rak', 'edit-rak', 'delete-rak'])) {
             return abort(404);
         }
+
         $rak_all = Rak::all();
+        $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->get();
+        $buku_fk = $buku_all->map(function ($buku) {
+            return [
+                'buku_id' => $buku->buku_id,
+                'buku_judul' => $buku->buku_judul,
+                'buku_isbn' => $buku->buku_isbn,
+                'buku_thnterbit' => $buku->buku_thnterbit,
+                'buku_penulis' => $buku->penulis->penulis_nama,
+                'buku_kategori' => $buku->kategori->kategori_nama,
+                'buku_penerbit' => $buku->penerbit->penerbit_nama,
+                'buku_rak' => $buku->rak->rak_lokasi,
+            ];
+        });
 
         if ($action == 'edit-rak') {
             $data = Rak::find($request->id);
@@ -78,6 +93,72 @@ class PagesController extends Controller
                 'editID' => $request->id,
                 'data_rak' => $data,
             ]);
+        }
+
+        if ($action == 'create') {
+            $rak_fk_field = Rak::select('rak_id', 'rak_nama', 'rak_lokasi')->get();
+            $penulis_fk_field = Penulis::select('penulis_id', 'penulis_nama')->get();
+            $kategori_fk_field = Kategori::select('kategori_id', 'kategori_nama')->get();
+            $penerbit_fk_field = Penerbit::select('penerbit_id', 'penerbit_nama')->get();
+            $data = [
+                'rak' => $rak_fk_field,
+                'penulis' => $penulis_fk_field,
+                'kategori' => $kategori_fk_field,
+                'penerbit' => $penerbit_fk_field,
+            ];
+
+            // return $data;
+
+            return view('general.buku', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data_fk' => $data,
+            ]);
+        }
+
+        if ($action == 'edit') {
+            $rak_fk_field = Rak::select('rak_id', 'rak_nama', 'rak_lokasi')->get();
+            $penulis_fk_field = Penulis::select('penulis_id', 'penulis_nama')->get();
+            $kategori_fk_field = Kategori::select('kategori_id', 'kategori_nama')->get();
+            $penerbit_fk_field = Penerbit::select('penerbit_id', 'penerbit_nama')->get();
+
+            $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->where('buku_id', $request->id)->get();
+            $buku_fk_select = $buku_all->map(function ($buku) {
+                return [
+                    'buku_id' => $buku->buku_id,
+                    'buku_judul' => $buku->buku_judul,
+                    'buku_isbn' => $buku->buku_isbn,
+                    'buku_thnterbit' => $buku->buku_thnterbit,
+                    'buku_penulis' => $buku->penulis->penulis_nama,
+                    'buku_kategori' => $buku->kategori->kategori_nama,
+                    'buku_penerbit' => $buku->penerbit->penerbit_nama,
+                    'buku_rak' => $buku->rak->rak_lokasi,
+                ];
+            });
+
+            $data_fk = [
+                'rak' => $rak_fk_field,
+                'penulis' => $penulis_fk_field,
+                'kategori' => $kategori_fk_field,
+                'penerbit' => $penerbit_fk_field,
+            ];
+
+            // return $buku_fk_select;
+
+            return view('general.buku', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data_buku' => $buku_fk_select,
+                'data_fk' => $data_fk,
+            ]);
+        }
+
+        if ($action == 'delete') {
+            $data = Buku::find($request->id);
+            BukuController::delete($request->id);
+            return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku ' . $data->buku_nama . ' berhasil dihapus!');
         }
 
         if ($action == 'delete-rak') {
@@ -90,6 +171,7 @@ class PagesController extends Controller
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
+            'data_buku' => $buku_fk,
             'data_rak' => $rak_all,
         ]);
     }
