@@ -22,7 +22,9 @@ class SimpanRakRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'rak_nama' => 'max:20|required',
+            'rak_lokasi' => 'max:50|required',
+            'rak_kapasitas' => 'required',
         ];
     }
 }

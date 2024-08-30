@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RakController;
+use App\Http\Controllers\BukuController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -35,6 +36,12 @@ Route::controller(PagesController::class)->group(function () {
         Route::get('/penerbit/{action}', 'adminPenerbitPage')->name('admin.penerbit');
         Route::get('/peminjaman/{action}', 'adminPeminjamanPage')->name('admin.peminjaman');
         Route::get('/pengaturan', 'adminPengaturanPage')->name('admin.pengaturan');
+
+        Route::prefix('/api')->group(function () {
+            Route::post('/rak', [RakController::class, 'store'])->name('action.rak.create');
+            Route::put('/rak/{id}', [RakController::class, 'update'])->name('action.rak.update');
+            Route::delete('/rak/{id}', [RakController::class, 'delete'])->name('action.rak.delete');
+        });
     });
 });
 

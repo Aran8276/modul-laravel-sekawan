@@ -5,6 +5,12 @@
 @section('content_title', 'Buku')
 
 @section('main')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     @if ($action == 'show')
         @section('content_subtitle', 'Daftar buku')
         <div>
@@ -70,7 +76,33 @@
                                 <td>{{ $rak['rak_kapasitas'] }} buku</td>
                                 <td style="text-align: center">
                                     <a class="px-2" href="edit-rak?id={{ $rak['rak_id'] }}">Edit</a>
-                                    <a class="text-danger" href="delete-rak?id={{ $rak['rak_id'] }}">Hapus</a>
+                                    <a class="text-danger" href="#" data-bs-toggle="modal"
+                                        data-bs-target="#modalDelete{{ $index + 1 }}">Hapus</a>
+                                    <!-- Button trigger modal -->
+
+                                    <!-- Modal Content -->
+                                    <div class="modal fade" id="modalDelete{{ $index + 1 }}" data-bs-backdrop="static"
+                                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Hapus Data</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin ingin menghapus rak buku {{ $rak['rak_nama'] }}?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Tutup</button>
+                                                    <a href="delete-rak?id={{ $rak['rak_id'] }}"
+                                                        class="btn btn-danger">Konfirmasi</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -83,128 +115,125 @@
             </div>
         </div>
     @elseif($action == 'create-rak')
-        <div class="mb-5">
-            <form action="">
-                <div>
-                    <label for="rak_nama" class="form-label">
-                        Nama Rak *
-                    </label>
-                    <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" required />
-                </div>
-                <div class="mt-4">
-                    <label for="rak_lokasi" class="form-label">
-                        Lokasi Rak *
-                    </label>
-                    <input type="text" class="form-control" id="deskripsi_kategori" name="deskripsi_kategori" required />
-                </div>
-                <div class="mt-4">
-                    <label for="rak_kapasitas" class="form-label">
-                        Kapasitas Rak *
-                    </label>
-                    <select class="form-select" id="deskripsi_kategori" name="deskripsi_kategori" required>
-                        <option selected>
-                            -Pilih Kapasitas Rak-
-                        </option>
-                        <option value="10">
-                            10
-                        </option>
-                        <option value="15">
-                            15
-                        </option>
-                        <option value="20">
-                            20
-                        </option>
-                        <option value="25">
-                            25
-                        </option>
-                        <option value="30">
-                            30
-                        </option>
-                        <option value="35">
-                            35
-                        </option>
-                        <option value="40">
-                            40
-                        </option>
-                        <option value="45">
-                            45
-                        </option>
-                        <option value="50">
-                            50
-                        </option>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <input type="submit" value="Tambahkan Rak" class="btn btn-primary" />
-                </div>
+    @section('content_subtitle', 'Form tambah rak buku')
+    <div class="mb-5">
+        <form action="{{ route('action.rak.create') }}" method="POST">
+            @csrf
+            <div>
+                <label for="rak_nama" class="form-label">
+                    Nama Rak *
+                </label>
+                <input type="text" class="form-control" id="rak_nama" name="rak_nama" required />
+            </div>
+            <div class="mt-4">
+                <label for="rak_lokasi" class="form-label">
+                    Lokasi Rak *
+                </label>
+                <input type="text" class="form-control" id="rak_lokasi" name="rak_lokasi" required />
+            </div>
+            <div class="mt-4">
+                <label for="rak_kapasitas" class="form-label">
+                    Kapasitas Rak *
+                </label>
+                <select class="form-select" id="rak_kapasitas" name="rak_kapasitas" required>
+                    <option selected>
+                        -Pilih Kapasitas Rak-
+                    </option>
+                    <option value="10">
+                        10
+                    </option>
+                    <option value="15">
+                        15
+                    </option>
+                    <option value="20">
+                        20
+                    </option>
+                    <option value="25">
+                        25
+                    </option>
+                    <option value="30">
+                        30
+                    </option>
+                    <option value="35">
+                        35
+                    </option>
+                    <option value="40">
+                        40
+                    </option>
+                    <option value="45">
+                        45
+                    </option>
+                    <option value="50">
+                        50
+                    </option>
+                </select>
+            </div>
+            <div class="mt-4">
+                <input type="submit" value="Tambahkan Rak" class="btn btn-primary" />
+            </div>
 
-            </form>
-        </div>
-    @elseif($action == 'edit-rak')
-        <div class="mb-5">
-            <form action="">
-                <div>
-                    <label class="form-label">
-                        ID Rak *
-                    </label>
-                    <input type="text" class="form-control" disabled value="{{ $editID }}" />
-                </div>
-                <div class="mt-4">
-                    <label for="rak_nama" class="form-label">
-                        Nama Rak *
-                    </label>
-                    <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" required />
-                </div>
-                <div class="mt-4">
-                    <label for="rak_lokasi" class="form-label">
-                        Lokasi Rak *
-                    </label>
-                    <input type="text" class="form-control" id="deskripsi_kategori" name="deskripsi_kategori" required />
-                </div>
-                <div class="mt-4">
-                    <label for="rak_kapasitas" class="form-label">
-                        Kapasitas Rak *
-                    </label>
-                    <select class="form-select" id="deskripsi_kategori" name="deskripsi_kategori" required>
-                        <option selected>
-                            -Pilih Kapasitas Rak-
-                        </option>
-                        <option value="10">
-                            10
-                        </option>
-                        <option value="15">
-                            15
-                        </option>
-                        <option value="20">
-                            20
-                        </option>
-                        <option value="25">
-                            25
-                        </option>
-                        <option value="30">
-                            30
-                        </option>
-                        <option value="35">
-                            35
-                        </option>
-                        <option value="40">
-                            40
-                        </option>
-                        <option value="45">
-                            45
-                        </option>
-                        <option value="50">
-                            50
-                        </option>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <input type="submit" value="Tambahkan Rak" class="btn btn-primary" />
-                </div>
+        </form>
+    </div>
+@elseif($action == 'edit-rak')
+    @section('content_subtitle', 'Form edit rak buku')
+    <div class="mb-5">
+        <form action="{{ route('action.rak.update', ['id' => $editID]) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div>
+                <label class="form-label">
+                    ID Rak *
+                </label>
+                <input type="text" class="form-control" disabled value="{{ $editID }}" />
+            </div>
+            <div class="mt-4">
+                <label for="rak_nama" class="form-label">
+                    Nama Rak *
+                </label>
+                <input type="text" class="form-control" id="rak_nama" value="{{ $data_rak->rak_nama }}"
+                    name="rak_nama" required />
+                @error('rak_nama')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mt-4">
+                <label for="rak_lokasi" class="form-label">
+                    Lokasi Rak *
+                </label>
+                <input type="text" class="form-control" id="rak_lokasi" value="{{ $data_rak->rak_lokasi }}"
+                    name="rak_lokasi" required />
+                @error('rak_lokasi')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
 
-            </form>
-        </div>
-    @elseif($action == 'create')
+            </div>
+            <div class="mt-4">
+                <label for="rak_kapasitas" class="form-label">
+                    Kapasitas Rak *
+                </label>
+                <select class="form-select" id="rak_kapasitas" name="rak_kapasitas">
+                    <option value="" {{ $data_rak->rak_kapasitas == '' ? 'selected' : '' }}>
+                        -Pilih Kapasitas Rak-
+                    </option>
+                    @foreach ([10, 15, 20, 25, 30, 35, 40, 45, 50] as $kapasitas)
+                        <option value="{{ $kapasitas }}"
+                            {{ $data_rak->rak_kapasitas == $kapasitas ? 'selected' : '' }}>
+                            {{ $kapasitas }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('rak_kapasitas')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+
+            </div>
+            <div class="mt-4">
+                <input type="submit" value="Edit Rak" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+@elseif($action == 'create')
     @section('content_subtitle', 'Form tambah buku')
     <div class="mb-5">
         <form action="">
@@ -350,6 +379,7 @@
         </form>
     </div>
 @elseif($action == 'siswa')
+    @section('content_subtitle', 'Halaman peminjaman buku')
     <div>
         <button type="button" class="btn btn-outline-dark mx-auto">
             Novel

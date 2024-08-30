@@ -60,11 +60,27 @@ class PagesController extends Controller
 
     public function adminBukuPage($action, Request $request)
     {
-        if (!in_array($action, ['show', 'create', 'edit', 'delete', 'create-rak', 'edit-rak'])) {
+        if (!in_array($action, ['show', 'create', 'edit', 'delete', 'create-rak', 'edit-rak', 'delete-rak'])) {
             return abort(404);
         }
         // $buku_all = Buku::all();
         $rak_all = Rak::all();
+
+        if ($action == 'edit-rak') {
+            $data = Rak::find($request->id);
+            return view('general.buku', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data_rak' => $data,
+            ]);
+        }
+
+        if ($action == 'delete-rak') {
+            $data = Rak::find($request->id);
+            RakController::delete($request->id);
+            return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Rak ' . $data->rak_nama . ' berhasil dihapus!');
+        }
 
         return view('general.buku', [
             'level'  => 'admin',
