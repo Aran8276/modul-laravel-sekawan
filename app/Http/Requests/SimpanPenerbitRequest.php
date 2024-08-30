@@ -22,7 +22,10 @@ class SimpanPenerbitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'penerbit_nama' => 'max:50|required',
+            'penerbit_alamat' => 'max:50|required',
+            'penerbit_notelp' => 'max:13|required',
+            'penerbit_email' => 'max:50|required',
         ];
     }
 }

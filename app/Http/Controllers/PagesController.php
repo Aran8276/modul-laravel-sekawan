@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Rak;
 use App\Models\Buku;
 use App\Models\Penulis;
+use App\Models\Penerbit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PenulisController;
+use App\Http\Controllers\PenerbitController;
 
 class PagesController extends Controller
 {
@@ -143,10 +145,29 @@ class PagesController extends Controller
             return abort(404);
         }
 
+        $data = Penerbit::all();
+
+        if ($action == 'edit') {
+            $data = Penerbit::find($request->id);
+            return view('general.penerbit', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data_penerbit' => $data,
+            ]);
+        }
+
+        if ($action == 'delete') {
+            $data = Penerbit::find($request->id);
+            PenerbitController::delete($request->id);
+            return redirect()->route('admin.penerbit', ['action' => 'show'])->with('success', 'Penerbit ' . $data->penerbit_nama . ' berhasil dihapus!');
+        }
+
         return view('general.penerbit', [
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
+            'data_penerbit' => $data,
         ]);
     }
 
