@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RakController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PenerbitController;
 
 Route::get('/', function () {
@@ -50,6 +51,10 @@ Route::controller(PagesController::class)->group(function () {
             Route::post('/penerbit', [PenerbitController::class, 'store'])->name('action.penerbit.create');
             Route::put('/penerbit/{id}', [PenerbitController::class, 'update'])->name('action.penerbit.update');
             Route::delete('/penerbit/{id}', [PenerbitController::class, 'delete'])->name('action.penerbit.delete');
+
+            Route::post('/kategori', [KategoriController::class, 'store'])->name('action.kategori.create');
+            Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('action.kategori.update');
+            Route::delete('/kategori/{id}', [KategoriController::class, 'delete'])->name('action.kategori.delete');
         });
     });
 });

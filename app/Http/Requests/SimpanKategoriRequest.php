@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SimpanKategoriBukuRequest extends FormRequest
+class SimpanKategoriRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class SimpanKategoriBukuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'kategori_nama' => 'max:20|required',
         ];
     }
 }

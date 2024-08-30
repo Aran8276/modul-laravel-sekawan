@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rak;
 use App\Models\Buku;
 use App\Models\Penulis;
+use App\Models\Kategori;
 use App\Models\Penerbit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PenulisController;
@@ -99,10 +100,29 @@ class PagesController extends Controller
             return abort(404);
         }
 
+        $data = Kategori::all();
+
+        if ($action == 'edit') {
+            $data = Kategori::find($request->id);
+            return view('general.kategori', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data_kategori' => $data,
+            ]);
+        }
+
+        if ($action == 'delete') {
+            $data = Kategori::find($request->id);
+            KategoriController::delete($request->id);
+            return redirect()->route('admin.kategori', ['action' => 'show'])->with('success', 'Kategori ' . $data->kategori_nama . ' berhasil dihapus!');
+        }
+
         return view('general.kategori', [
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
+            'data_kategori' => $data,
         ]);
     }
 
