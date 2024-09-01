@@ -28,20 +28,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Tere Liye - Buku 1</td>
-                            <td>
-                                <div class="py-2">
-                                    <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
-                                </div>
-                            </td>
-                            <td>2024-08-25</td>
-                            <td></td>
-                            <td><a href="edit?id=IDIniAkanTampilDiParameterURL">Selesaikan</a></td>
-                        </tr>
-                        <tr>
+                        @foreach ($data as $index => $peminjaman)
+                            <tr>
+                                <th scope="row">{{ $index + 1 }}</th>
+                                <td>{{ $peminjaman['user']['user_username'] }}</td>
+                                <td>Tere Liye - Buku 1</td>
+                                <td>
+                                    <div class="py-2">
+                                        <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                                    </div>
+                                </td>
+                                <td>2024-08-25</td>
+                                <td></td>
+                                <td><a href="edit?id=IDIniAkanTampilDiParameterURL">Selesaikan</a></td>
+                            </tr>
+                        @endforeach
+                        {{-- <tr>
                             <th scope="row">2</th>
                             <td>Jacob</td>
                             <td>
@@ -72,7 +74,7 @@
                             <td>2024-08-25</td>
                             <td>2024-08-27</td>
                             <td><a href="#">Hapus</a></td>
-                        </tr>
+                        </tr> --}}
                     </tbody>
                 </table>
             </div>
@@ -150,18 +152,43 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Tere Liye - Buku 1</td>
-                    <td>
-                        <div class="py-2">
-                            <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
-                        </div>
-                    </td>
-                    <td>2024-08-25</td>
-                    <td></td>
-                </tr>
-                <tr>
+                @foreach ($data as $index => $peminjaman)
+                    <tr>
+                        <th scope="row">{{ $index + 1 }}</th>
+                        <td><a href="#">{{ $peminjaman['buku_content']['buku_judul'] }}</a></td>
+                        <td>
+                            @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
+                                <div class="py-2">
+                                    <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                                </div>
+                            @else
+                                <div class="py-2">
+                                    <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                                </div>
+                            @endif
+                        </td>
+                        <td>{{ $peminjaman['peminjaman_content']['peminjaman_tglpinjam'] }}</td>
+                        <td>
+                            {{-- @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
+                                <div class="py-2">
+                                    <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                                </div>
+                            @else
+                                <div class="py-2">
+                                    <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                                </div>
+                            @endif --}}
+                            @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
+                                <span>{{ $peminjaman['peminjaman_content']['peminjaman_tglkembali'] }}</span>
+                            @else
+                                <span>-</span>
+                            @endif
+
+
+                        </td>
+                    </tr>
+                @endforeach
+                {{-- <tr>
                     <th scope="row">2</th>
                     <td>
                         Tere Liye - Cara membuat website di
@@ -188,7 +215,7 @@
                     </td>
                     <td>2024-08-25</td>
                     <td>2024-08-27</td>
-                </tr>
+                </tr> --}}
             </tbody>
         </table>
     </div>

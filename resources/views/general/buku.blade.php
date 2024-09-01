@@ -538,13 +538,12 @@
     </div>
 @elseif($action == 'siswa')
     @section('content_subtitle', 'Halaman peminjaman buku')
-    <div>
-        <a href="/buku" class="btn btn-outline-dark mx-auto">
+    <div class="row row-cols-6">
+        <a href="/buku" class="btn btn-outline-dark mx-2 my-2 col ">
             Semua
         </a>
-
         @foreach ($data_kategori as $kategori)
-            <a href="/buku/{{ $kategori['kategori_id'] }}" class="btn btn-outline-dark mx-auto">
+            <a href="/buku/{{ $kategori['kategori_id'] }}" class="btn btn-outline-dark mx-2 my-2 col ">
                 {{ $kategori['kategori_nama'] }}
             </a>
         @endforeach
@@ -562,6 +561,64 @@
         </button> --}}
     </div>
     <div class="row gap-4 mt-4 mb-5">
+        @foreach ($data_buku as $buku)
+            <div class="card col-12 col-md-4 col-lg-3">
+                <div class="card-body">
+                    <img src="/img/book.png" alt="Bulan" class="book-img" />
+                    <hr />
+                    <p class="text-center fw-bolder fs-4 my-0">
+                        {{ $buku['buku_judul'] }}
+                    </p>
+                    <p class="text-center mb-3">
+                        Ditulis oleh {{ $buku['buku_penulis'] }}
+                    </p>
+                    <p class="text-center mb-3">
+                        {{ $buku['buku_kategori'] }}
+                    </p>
+                    <button type="button" class="btn btn-primary d-block mx-auto w-50" data-bs-toggle="modal"
+                        data-bs-target="#confirmModal{{ $buku['buku_id'] }}">
+                        Pinjam
+                    </button>
+
+                    <div class="modal fade" id="confirmModal{{ $buku['buku_id'] }}" tabindex="-1"
+                        aria-labelledby="confirmModal{{ $buku['buku_id'] }}Label" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="confirmModal{{ $buku['buku_id'] }}Label">
+                                        Peminjaman Buku</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div>
+                                        <span>Apakah anda yakin ingin meminjam buku "{{ $buku['buku_judul'] }}"?</span>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <span>Detail Buku:</span>
+                                        <ul class="mt-2">
+                                            <li>Kategori: {{ $buku['buku_kategori'] }}</li>
+                                            <li>Penulis: {{ $buku['buku_penulis'] }}</li>
+                                            <li>Penerbit: {{ $buku['buku_penerbit'] }}</li>
+                                            <li>Lokasi Rak: {{ $buku['buku_rak'] }}</li>
+                                            <li>Serial ISBN: {{ $buku['buku_isbn'] }}</li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                    <a href="/buku/pinjam/{{ $buku['buku_id'] }}" class="btn btn-primary"
+                                        type="button">Pinjam</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
         {{-- <div class="card col-12 col-md-4 col-lg-3">
             <div class="card-body">
                 <img src="./img/book.png" alt="Bulan" class="book-img" />
@@ -577,26 +634,6 @@
                 </button>
             </div>
         </div> --}}
-        @foreach ($data_buku as $buku)
-            <div class="card col-12 col-md-4 col-lg-3">
-                <div class="card-body">
-                    <img src="/img/book.png" alt="Bulan" class="book-img" />
-                    <hr />
-                    <p class="text-center fw-bolder fs-4 my-0">
-                        {{ $buku['buku_judul'] }}
-                    </p>
-                    <p class="text-center mb-3">
-                        Ditulis oleh {{ $buku['buku_penulis'] }}
-                    </p>
-                    <p class="text-center mb-3">
-                        {{ $buku['buku_kategori'] }}
-                    </p>
-                    <a href="/pinjam" type="button" class="btn btn-primary d-block mx-auto w-50" type="submit">
-                        Pinjam
-                    </a>
-                </div>
-            </div>
-        @endforeach
         {{-- <div class="card col-12 col-md-4 col-lg-3">
             <div class="card-body">
                 <img src="./img/book.png" alt="Bulan" class="book-img" />

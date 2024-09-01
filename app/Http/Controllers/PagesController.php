@@ -7,7 +7,10 @@ use App\Models\Buku;
 use App\Models\Penulis;
 use App\Models\Kategori;
 use App\Models\Penerbit;
+use App\Models\Peminjaman;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PeminjamanDetail;
 use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PenerbitController;
 
@@ -82,11 +85,54 @@ class PagesController extends Controller
         ]);
     }
 
+    public function pinjamBuku($id)
+    {
+        // $user_id = 'VXQvbwjkAwEN9NWb';  
+        $user_id = 'ThisUserIsUnique';  //USER ID BISA DIGANTI DISINI UTK SESSION NTI
+        $buku_detail = Buku::where('buku_id', $id)->first();
+        $peminjaman_id = Str::random(16);
+        $current_date = date("Y-m-d");
+
+        $data_peminjaman = [
+            'peminjaman_id' => $peminjaman_id,
+            'peminjaman_user_id' => $user_id,
+            'peminjaman_tglpinjam' => $current_date,
+            'peminjaman_tglkembali' => $current_date,
+        ];
+
+        $data_detail = [
+            'peminjaman_detail_peminjaman_id' => $peminjaman_id,
+            'peminjaman_detail_buku_id' => $id
+        ];
+
+        Peminjaman::create($data_peminjaman);
+        PeminjamanDetail::create($data_detail);
+
+        return redirect()->route('peminjaman')->with('success', 'Anda telah meminjam buku ' . $buku_detail['buku_judul'] . '!');
+    }
+
+
     public function peminjamanPage()
     {
+        // $user_id = 'VXQvbwjkAwEN9NWb';  
+        $user_id = 'ThisUserIsUnique';  //USER ID BISA DIGANTI DISINI UTK SESSION NTI
+
+        // Pemahaman lagi di https://laravel.com/docs/11.x/eloquent-relationships#querying-relationship-existence
+        $peminjaman_detail_all = PeminjamanDetail::with(['peminjaman_content', 'buku_content'])
+            ->whereHas(
+                'peminjaman_content',
+                function ($query) use ($user_id) { // use adalah menggunakan variabel `$user_id` di atas karena di function ini tertutup
+                    return $query->where('peminjaman_user_id', $user_id);
+                }
+            )
+            ->get();
+
+        // return $peminjaman_detail_all;
+
         return view('general.peminjaman', [
             'level'  => 'siswa',
-            'action' => 'siswa'
+            'action' => 'siswa',
+            'data' => $peminjaman_detail_all,
         ]);
     }
 
@@ -320,10 +366,15 @@ class PagesController extends Controller
             return abort(404);
         }
 
+        $peminjaman_all = Peminjaman::with(['user', 'peminjamanDetail'])->get();
+
+        return $peminjaman_all;
+
         return view('general.peminjaman', [
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
+            'data' => $peminjaman_all,
         ]);
     }
 

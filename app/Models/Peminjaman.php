@@ -22,4 +22,10 @@ class Peminjaman extends Model
         'peminjaman_note',
         'peminjaman_denda',
     ];
+
+    public function user()
+    {
+        // Side effect from the original `User` model (Model, Foreign Field, Owner Field)
+        return $this->belongsTo(User::class, 'peminjaman_user_id', 'user_id');
+    }
 }
