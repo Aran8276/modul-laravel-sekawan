@@ -33,9 +33,50 @@ class PagesController extends Controller
         ]);
     }
 
-    public function bukuPage()
+    public function bukuPage($withCategoryFilter = '')
     {
+        $data_kategori = Kategori::all();
+
+        if ($withCategoryFilter) {
+
+            $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->where('buku_kategori_id', $withCategoryFilter)->get();
+            $data = $buku_all->map(function ($buku) {
+                return [
+                    'buku_id' => $buku->buku_id,
+                    'buku_judul' => $buku->buku_judul,
+                    'buku_isbn' => $buku->buku_isbn,
+                    'buku_thnterbit' => $buku->buku_thnterbit,
+                    'buku_penulis' => $buku->penulis->penulis_nama,
+                    'buku_kategori' => $buku->kategori->kategori_nama,
+                    'buku_penerbit' => $buku->penerbit->penerbit_nama,
+                    'buku_rak' => $buku->rak->rak_lokasi,
+                ];
+            });
+            return view('general.buku', [
+                'data_buku' => $data,
+                'data_kategori' => $data_kategori,
+                'level'  => 'siswa',
+                'action' => 'siswa'
+            ]);
+        }
+
+        $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->get();
+        $data = $buku_all->map(function ($buku) {
+            return [
+                'buku_id' => $buku->buku_id,
+                'buku_judul' => $buku->buku_judul,
+                'buku_isbn' => $buku->buku_isbn,
+                'buku_thnterbit' => $buku->buku_thnterbit,
+                'buku_penulis' => $buku->penulis->penulis_nama,
+                'buku_kategori' => $buku->kategori->kategori_nama,
+                'buku_penerbit' => $buku->penerbit->penerbit_nama,
+                'buku_rak' => $buku->rak->rak_lokasi,
+            ];
+        });
+
         return view('general.buku', [
+            'data_buku' => $data,
+            'data_kategori' => $data_kategori,
             'level'  => 'siswa',
             'action' => 'siswa'
         ]);

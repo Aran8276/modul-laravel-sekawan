@@ -22,11 +22,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->primary('peminjaman_id');
-            $table->foreign('peminjaman_id')->references('peminjaman_detail_peminjaman_id')->on('peminjaman_detail')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('peminjaman_user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
-
-    //foreign key
 
     /**
      * Reverse the migrations.

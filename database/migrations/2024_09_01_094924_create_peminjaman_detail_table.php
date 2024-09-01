@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('peminjaman_detail', function (Blueprint $table) {
             $table->string('peminjaman_detail_peminjaman_id', length: 16);
             $table->string('peminjaman_detail_buku_id', length: 16);
-            $table->timestamps();
 
+            $table->foreign('peminjaman_detail_peminjaman_id')->references('peminjaman_id')->on('peminjaman')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('peminjaman_detail_buku_id')->references('buku_id')->on('buku')->onDelete('cascade')->onUpdate('cascade');
-            $table->primary('peminjaman_detail_peminjaman_id');
         });
     }
+
     /**
      * Reverse the migrations.
      */

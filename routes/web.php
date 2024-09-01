@@ -27,6 +27,7 @@ Route::controller(PagesController::class)->group(function () {
     // Siswa
     Route::get('/dashboard', 'dashboardPage')->name('dashboard');
     Route::get('/buku', 'bukuPage')->name('buku');
+    Route::get('/buku/{withCategoryFilter}', 'bukuPage')->name('buku-with-kategori');
     Route::get('/peminjaman', 'peminjamanPage')->name('peminjaman');
     Route::get('/pengaturan', 'pengaturanPage')->name('pengaturan');
 
