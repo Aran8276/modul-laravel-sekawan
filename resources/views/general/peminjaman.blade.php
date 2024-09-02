@@ -20,6 +20,7 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Peminjam</th>
+                            <th scope="col">Denda</th>
                             <th scope="col">Buku</th>
                             <th scope="col">Status</th>
                             <th scope="col">Tgl Pinjam</th>
@@ -32,15 +33,32 @@
                             <tr>
                                 <th scope="row">{{ $index + 1 }}</th>
                                 <td>{{ $peminjaman['user']['user_username'] }}</td>
-                                <td>Tere Liye - Buku 1</td>
+                                <td>{{ $peminjaman['peminjaman_denda'] }}</td>
+                                <td>{{ $peminjaman['buku'][0]['buku_judul'] }}</td>
                                 <td>
-                                    <div class="py-2">
-                                        <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
-                                    </div>
+                                    @if ($peminjaman['peminjaman_statuskembali'] == 1)
+                                        <div>
+                                            <h5><span class="badge text-bg-success">SELESAI</span></h5>
+                                        </div>
+                                    @else
+                                        <div>
+                                            <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
+                                        </div>
+                                    @endif
                                 </td>
                                 <td>2024-08-25</td>
-                                <td></td>
-                                <td><a href="edit?id=IDIniAkanTampilDiParameterURL">Selesaikan</a></td>
+
+                                @if ($peminjaman['peminjaman_statuskembali'] == 1)
+                                    <td>{{ $peminjaman['peminjaman_tglkembali'] }}</td>
+                                @else
+                                    <td>-</td>
+                                @endif
+
+                                @if ($peminjaman['peminjaman_statuskembali'] == 1)
+                                    <td><a href="delete?id={{ $peminjaman['peminjaman_id'] }}">Hapus</a></td>
+                                @else
+                                    <td><a href="edit?id={{ $peminjaman['peminjaman_id'] }}">Selesaikan</a></td>
+                                @endif
                             </tr>
                         @endforeach
                         {{-- <tr>
@@ -51,8 +69,8 @@
                                 Laravel
                             </td>
                             <td>
-                                <div class="py-2">
-                                    <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                                <div>
+                                    <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
                                 </div>
                             </td>
                             <td>2024-08-25</td>
@@ -67,8 +85,8 @@
                                 Guides For Honda Accord 2003 - 2012
                             </td>
                             <td>
-                                <div class="py-2">
-                                    <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                                <div>
+                                    <h5><span                                         class="badge text-bg-success">SELESAI</span>                                </h5>
                                 </div>
                             </td>
                             <td>2024-08-25</td>
@@ -78,36 +96,140 @@
                     </tbody>
                 </table>
             </div>
-            <a href="create" class="btn btn-primary my-3">Buat Peminjaman</a>
-            <a href="#" class="btn btn-warning mx-3">Hapus yang Selesai</a>
+            <a href="create" class="btn btn-primary mx-1 my-3">Buat Peminjaman</a>
+            {{-- <a href="#" class="btn btn-secondary mx-1 my-3">Perbersar Table</a> --}}
+            <button href="create" class="btn btn-secondary my-3" data-bs-toggle="modal" data-bs-target="#modalTable">
+                Perbesar Table
+            </button>
+            <div class="modal fade" id="modalTable" tabindex="-1" aria-labelledby="modalTable" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalTable">Table buku</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="datatablesSimple2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Peminjam</th>
+                                        <th scope="col">Denda</th>
+                                        <th scope="col">Catatan</th>
+                                        <th scope="col">No Telp Peminjam</th>
+                                        <th scope="col">Buku</th>
+                                        <th scope="col">ISBN</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Tgl Pinjam</th>
+                                        <th scope="col">Tgl Kembali</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $index => $peminjaman)
+                                        <tr>
+                                            <th scope="row">{{ $index + 1 }}</th>
+                                            <td>{{ $peminjaman['peminjaman_id'] }}</td>
+                                            <td>{{ $peminjaman['user']['user_username'] }}</td>
+                                            <td>{{ $peminjaman['peminjaman_denda'] }}</td>
+                                            <td>{{ $peminjaman['peminjaman_note'] }}</td>
+                                            <td>{{ $peminjaman['user']['user_notelp'] }}</td>
+                                            <td>{{ $peminjaman['buku'][0]['buku_judul'] }}</td>
+                                            <td>{{ $peminjaman['buku'][0]['buku_isbn'] }}</td>
+                                            @if ($peminjaman['peminjaman_statuskembali'] == 1)
+                                                <td>
+                                                    <h5><span class="badge text-bg-success">SELESAI</span></h5>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
+                                                </td>
+                                            @endif
+
+                                            <td>{{ $peminjaman['peminjaman_tglpinjam'] }}</td>
+
+                                            @if ($peminjaman['peminjaman_statuskembali'] == 1)
+                                                <td>{{ $peminjaman['peminjaman_tglkembali'] }}</td>
+                                            @else
+                                                <td>-</td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                    {{-- <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>
+                                            Tere Liye - Cara membuat website di
+                                            Laravel
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
+                                            </div>
+                                        </td>
+                                        <td>2024-08-25</td>
+                                        <td></td>
+                                        <td><a href="edit?id=IDIniAkanTampilDiParameterURL">Selesaikan</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry the Bird</td>
+                                        <td>
+                                            Haynes Manual - Repair Manuals &
+                                            Guides For Honda Accord 2003 - 2012
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <h5><span                                         class="badge text-bg-success">SELESAI</span>                                </h5>
+                                            </div>
+                                        </td>
+                                        <td>2024-08-25</td>
+                                        <td>2024-08-27</td>
+                                        <td><a href="#">Hapus</a></td>
+                                    </tr> --}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <a href="delete-index" class="btn btn-warning mx-1 my-3">Hapus yang Selesai</a>
         </div>
     @elseif($action == 'create')
     @section('content_subtitle', 'Form tambah kategori')
     <div class="mb-5">
-        <form action="">
+        <form action={{ route('action.peminjaman.create') }} method="POST">
             <div class="mt-4">
-                <label for="id_peminjam" class="form-label">ID Peminjam</label>
-                <input id="id_peminjam" value="Larry the Bird" type="text" class="form-control" />
+                <label for="peminjaman_user_id" class="form-label">Peminjam</label>
+                <select class="form-select" id="peminjaman_user_id" name="peminjaman_user_id" required>
+                    <option selected>
+                        -Pilih User Peminjam-
+                    </option>
+                    @foreach ($data['user'] as $user)
+                        <option value="{{ $user['user_id'] }}">
+                            {{ $user['user_username'] }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="mt-4">
-                <label class="form-label" for="name"> Nama Peminjam</label>
-                <input value="Larry the Bird" id="name" type="text" class="form-control" />
-            </div>
-            <div class="mt-4">
-                <label for="fine_amt" class="form-label">
-                    Denda
-                </label>
-
-                <div class="input-group">
-                    <span class="input-group-text">Rp</span>
-                    <input type="text" class="form-control" id="fine_amt" name="fine_amt" />
-                </div>
-            </div>
-            <div class="mt-4">
-                <label for="fine_note" class="form-label">
-                    Catatan Denda
-                </label>
-                <textarea type="text" class="form-control" style="height: 100px" id="fine_note" name="fine_note"></textarea>
+                <label for="peminjaman_detail_peminjaman_buku_id" class="form-label">Peminjam</label>
+                <select class="form-select" id="peminjaman_detail_peminjaman_buku_id"
+                    name="peminjaman_detail_peminjaman_buku_id" required>
+                    <option selected>
+                        -Pilih Buku-
+                    </option>
+                    @foreach ($data['buku'] as $buku)
+                        <option value="{{ $buku['buku_id'] }}">
+                            {{ $buku['buku_judul'] }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="mt-4">
                 <input type="submit" value="Tambahkan Peminjaman" class="btn btn-primary" />
@@ -115,9 +237,11 @@
         </form>
     </div>
 @elseif ($action == 'edit')
-    <form action="">
-        <label class="form-label"> Nama Peminjam</label>
-        <input value="Larry the Bird (akan dicocokan dgn ID di controller backend: {{ $editID }} )" type="text"
+    <form action={{ route('action.peminjaman.update', ['id' => $editID]) }} method="POST">
+        @csrf
+        @method('PUT')
+        <label class="form-label">Nama Peminjam</label>
+        <input value="{{ $data[0]['user']['user_nama'] }} ({{ $data[0]['user']['user_username'] }})" type="text"
             class="form-control" disabled />
         <div class="mt-4">
             <label for="fine_amt" class="form-label">
@@ -126,14 +250,14 @@
 
             <div class="input-group">
                 <span class="input-group-text">Rp</span>
-                <input type="text" class="form-control" id="fine_amt" name="fine_amt" />
+                <input type="text" class="form-control" id="peminjaman_denda" name="peminjaman_denda" />
             </div>
         </div>
         <div class="mt-4">
             <label for="fine_note" class="form-label">
                 Catatan Denda
             </label>
-            <textarea type="text" class="form-control" style="height: 100px" id="fine_note" name="fine_note"></textarea>
+            <textarea type="text" class="form-control" style="height: 100px" id="peminjaman_note" name="peminjaman_note"></textarea>
         </div>
         <div class="mt-4">
             <input type="submit" value="Selesaikan Peminjaman" class="btn btn-primary" />
@@ -146,6 +270,8 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Buku</th>
+                    <th scope="col">Denda</th>
+                    <th scope="col">Catatan</th>
                     <th scope="col">Status</th>
                     <th scope="col">Tgl Pinjam</th>
                     <th scope="col">Tgl Kembali</th>
@@ -155,27 +281,76 @@
                 @foreach ($data as $index => $peminjaman)
                     <tr>
                         <th scope="row">{{ $index + 1 }}</th>
-                        <td><a href="#">{{ $peminjaman['buku_content']['buku_judul'] }}</a></td>
+                        <td>{{ $peminjaman['buku_content']['buku_judul'] }}</td>
                         <td>
                             @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
-                                <div class="py-2">
-                                    <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                                <h5><span
+                                        class="badge text-bg-danger">{{ $peminjaman['peminjaman_content']['peminjaman_denda'] }}</span>
+                                </h5>
+                            @else
+                                <span>-</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if (
+                                $peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1 &&
+                                    !$peminjaman['peminjaman_content']['peminjaman_denda'] == '')
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#catatanModal_{{ $peminjaman['peminjaman_detail_peminjaman_id'] }}">
+                                    Lihat Catatan
+                                </button>
+
+                                <div class="modal fade"
+                                    id="catatanModal_{{ $peminjaman['peminjaman_detail_peminjaman_id'] }}"
+                                    tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Catatan</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div>
+                                                    <span>Denda: </span>
+                                                    <span>{{ $peminjaman['peminjaman_content']['peminjaman_denda'] }}</span>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span>Catatan:</span>
+                                                    <span>{{ $peminjaman['peminjaman_content']['peminjaman_note'] }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Tutup</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             @else
-                                <div class="py-2">
-                                    <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                                <span>-</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
+                                <div>
+                                    <h5><span class="badge text-bg-success">SELESAI</span></h5>
+                                </div>
+                            @else
+                                <div>
+                                    <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
                                 </div>
                             @endif
                         </td>
                         <td>{{ $peminjaman['peminjaman_content']['peminjaman_tglpinjam'] }}</td>
                         <td>
                             {{-- @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
-                                <div class="py-2">
-                                    <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                                <div>
+                                    <h5><span                                         class="badge text-bg-success">SELESAI</span>                                </h5>
                                 </div>
                             @else
-                                <div class="py-2">
-                                    <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                                <div>
+                                    <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
                                 </div>
                             @endif --}}
                             @if ($peminjaman['peminjaman_content']['peminjaman_statuskembali'] == 1)
@@ -195,8 +370,8 @@
                         Laravel
                     </td>
                     <td>
-                        <div class="py-2">
-                            <span class="bg-danger px-3 py-2 text-white rounded-pill">MEMINJAM</span>
+                        <div>
+                            <h5><span class="badge text-bg-danger">MEMINJAM</span></h5>
                         </div>
                     </td>
                     <td>2024-08-25</td>
@@ -209,8 +384,8 @@
                         Guides For Honda Accord 2003 - 2012
                     </td>
                     <td>
-                        <div class="py-2">
-                            <span class="bg-success px-3 py-2 text-white rounded-pill">SELESAI</span>
+                        <div>
+                            <h5><span                                         class="badge text-bg-success">SELESAI</span>                                </h5>
                         </div>
                     </td>
                     <td>2024-08-25</td>
@@ -221,3 +396,11 @@
     </div>
 @endif
 @endsection
+
+{{-- 
+1. Menentukan Topik atau Tema
+2. Menentukan Tujuan Penulisan
+3. Mengumpulkan Data atau Informasi
+4. Membangun Kerangka Karangan
+5. Mengembangkan Paragraf
+6. Menyusun Kesimpulan --}}

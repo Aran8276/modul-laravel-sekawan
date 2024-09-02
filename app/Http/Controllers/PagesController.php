@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rak;
 use App\Models\Buku;
+use App\Models\User;
 use App\Models\Penulis;
 use App\Models\Kategori;
 use App\Models\Penerbit;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\PeminjamanDetail;
 use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PenerbitController;
+use App\Http\Controllers\PeminjamanController;
 
 class PagesController extends Controller
 {
@@ -110,7 +112,6 @@ class PagesController extends Controller
 
         return redirect()->route('peminjaman')->with('success', 'Anda telah meminjam buku ' . $buku_detail['buku_judul'] . '!');
     }
-
 
     public function peminjamanPage()
     {
@@ -362,13 +363,55 @@ class PagesController extends Controller
 
     public function adminPeminjamanPage($action, Request $request)
     {
-        if (!in_array($action, ['show', 'create', 'edit', 'delete'])) {
+        if (!in_array($action, ['show', 'create', 'edit', 'delete', 'delete-index'])) {
             return abort(404);
         }
 
-        $peminjaman_all = Peminjaman::with(['user', 'peminjamanDetail'])->get();
+        $peminjaman_all = Peminjaman::with(['user', 'peminjamanDetail', 'buku'])->get();
 
-        return $peminjaman_all;
+        if ($action == 'create') {
+            $user_all = User::all();
+            $buku_all = Buku::all();
+
+            $data = [
+                "user" => $user_all,
+                "buku" => $buku_all,
+            ];
+
+            // return $data;
+
+            return view('general.peminjaman', [
+                'level'  => 'admin',
+                'action' => $action,
+                'data' => $data
+            ]);
+        }
+
+        if ($action == 'edit') {
+            $peminjaman_edit = Peminjaman::with(['user', 'peminjamanDetail', 'buku'])->where('peminjaman_id', $request->id)->get();
+
+            // return $peminjaman_edit;
+
+            return view('general.peminjaman', [
+                'level'  => 'admin',
+                'action' => $action,
+                'editID' => $request->id,
+                'data' => $peminjaman_edit
+            ]);
+        }
+
+        if ($action == 'delete') {
+            $data = Peminjaman::with(['user', 'peminjamanDetail'])->where('peminjaman_id', $request->id)->get();
+            PeminjamanController::delete($request->id);
+            return redirect()->route('admin.peminjaman', ['action' => 'show'])->with('success', 'Peminjaman ' . $data[0]['user']['user_username'] . ' berhasil dihapus!');
+        }
+
+        if ($action == 'delete-index') {
+            PeminjamanController::deleteIndex();
+            return redirect()->route('admin.peminjaman', ['action' => 'show'])->with('success', 'Semua Peminjaman yang selesai berhasil dihapus!');
+        }
+
+        // return $peminjaman_all;
 
         return view('general.peminjaman', [
             'level'  => 'admin',

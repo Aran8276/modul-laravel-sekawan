@@ -577,7 +577,7 @@
                     </p>
                     <button type="button" class="btn btn-primary d-block mx-auto w-50" data-bs-toggle="modal"
                         data-bs-target="#confirmModal{{ $buku['buku_id'] }}">
-                        Pinjam
+                        Detail
                     </button>
 
                     <div class="modal fade" id="confirmModal{{ $buku['buku_id'] }}" tabindex="-1"
@@ -592,18 +592,19 @@
                                 </div>
                                 <div class="modal-body">
                                     <div>
-                                        <span>Apakah anda yakin ingin meminjam buku "{{ $buku['buku_judul'] }}"?</span>
-                                    </div>
-
-                                    <div class="mt-3">
                                         <span>Detail Buku:</span>
                                         <ul class="mt-2">
+                                            <li>Judul: {{ $buku['buku_judul'] }}</li>
                                             <li>Kategori: {{ $buku['buku_kategori'] }}</li>
                                             <li>Penulis: {{ $buku['buku_penulis'] }}</li>
                                             <li>Penerbit: {{ $buku['buku_penerbit'] }}</li>
                                             <li>Lokasi Rak: {{ $buku['buku_rak'] }}</li>
                                             <li>Serial ISBN: {{ $buku['buku_isbn'] }}</li>
                                         </ul>
+                                    </div>
+                                    <div class="mt-3">
+                                        <span>Keterlambat mengumpulkan buku kemungkinan akan dikenakan denda. Apakah
+                                            anda ingin meminjam buku ini?</span>
                                     </div>
 
                                 </div>

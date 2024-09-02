@@ -22,7 +22,7 @@ class SimpanPeminjamanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'peminjaman_note' => 'max:100',
         ];
     }
 }

@@ -90,6 +90,14 @@ Route::controller(PagesController::class)->group(function () {
                     Route::delete('/{id}', 'delete')->name('action.buku.delete');
                 });
             });
+
+            Route::controller(PeminjamanController::class)->group(function () {
+                Route::prefix('/peminjaman')->group(function () {
+                    Route::post('/', 'store')->name('action.peminjaman.create');
+                    Route::put('/{id}', 'update')->name('action.peminjaman.update');
+                    Route::delete('/{id}', 'delete')->name('action.peminjaman.delete');
+                });
+            });
         });
     });
 });
