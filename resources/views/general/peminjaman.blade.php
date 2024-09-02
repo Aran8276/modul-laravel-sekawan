@@ -197,13 +197,37 @@
                 </div>
             </div>
 
+            <button type="button" class="btn btn-warning mx-1 my-3" data-bs-toggle="modal" data-bs-target="#modalDelete">
+                Hapus yang Selesai
+            </button>
+            <!-- Button trigger modal -->
 
-            <a href="delete-index" class="btn btn-warning mx-1 my-3">Hapus yang Selesai</a>
+            <!-- Modal Content -->
+            <div class="modal fade" id="modalDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Hapus Data</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Table Action Href Array Content -->
+                            Apakah anda yakin ingin menghapus semua peminjaman yang selesai?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <a href="delete-index" class="btn btn-danger">Konfirmasi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     @elseif($action == 'create')
     @section('content_subtitle', 'Form tambah kategori')
     <div class="mb-5">
         <form action={{ route('action.peminjaman.create') }} method="POST">
+            @csrf
             <div class="mt-4">
                 <label for="peminjaman_user_id" class="form-label">Peminjam</label>
                 <select class="form-select" id="peminjaman_user_id" name="peminjaman_user_id" required>
@@ -218,9 +242,8 @@
                 </select>
             </div>
             <div class="mt-4">
-                <label for="peminjaman_detail_peminjaman_buku_id" class="form-label">Peminjam</label>
-                <select class="form-select" id="peminjaman_detail_peminjaman_buku_id"
-                    name="peminjaman_detail_peminjaman_buku_id" required>
+                <label for="peminjaman_detail_buku_id" class="form-label">Peminjam</label>
+                <select class="form-select" id="peminjaman_detail_buku_id" name="peminjaman_detail_buku_id" required>
                     <option selected>
                         -Pilih Buku-
                     </option>
@@ -244,20 +267,25 @@
         <input value="{{ $data[0]['user']['user_nama'] }} ({{ $data[0]['user']['user_username'] }})" type="text"
             class="form-control" disabled />
         <div class="mt-4">
-            <label for="fine_amt" class="form-label">
+            <label for="peminjaman_denda" class="form-label">
                 Denda
             </label>
-
             <div class="input-group">
                 <span class="input-group-text">Rp</span>
                 <input type="text" class="form-control" id="peminjaman_denda" name="peminjaman_denda" />
             </div>
+            @error('peminjaman_denda')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <div class="mt-4">
             <label for="fine_note" class="form-label">
                 Catatan Denda
             </label>
             <textarea type="text" class="form-control" style="height: 100px" id="peminjaman_note" name="peminjaman_note"></textarea>
+            @error('peminjaman_note')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <div class="mt-4">
             <input type="submit" value="Selesaikan Peminjaman" class="btn btn-primary" />
