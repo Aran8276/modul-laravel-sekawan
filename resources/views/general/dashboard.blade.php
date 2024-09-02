@@ -54,7 +54,7 @@
     </div>
     @if ($level == 'admin')
         <a href="/dashboard">Masuk Mode Siswa</a>
-    @elseif($level == 'siswa')
+    @elseif($level == 'siswa' && Auth::user()->level == 'admin')
         <a href="/admin/dashboard">Masuk Mode Admin</a>
     @endif
 @endsection

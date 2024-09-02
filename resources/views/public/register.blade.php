@@ -7,7 +7,7 @@
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
-                    <div class="container">
+                    <div class="container mb-5">
                         <div class="row justify-content-center">
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
@@ -18,50 +18,89 @@
                                         </h3>
                                     </div>
                                     <div class="card-body">
-                                        <form>
+                                        <form action="{{ route('action.register') }}" method="POST">
+                                            @csrf
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
                                                         <input class="form-control" id="inputFirstName" type="text"
-                                                            placeholder="Enter your first name" />
+                                                            name="first_name" placeholder="Enter your first name" />
                                                         <label for="inputFirstName">Nama depan</label>
+                                                        @error('first_name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
                                                         <input class="form-control" id="inputLastName" type="text"
-                                                            placeholder="Enter your last name" />
-                                                        <label for="inputLastName">Nama
-                                                            belakang</label>
+                                                            name="last_name" placeholder="Enter your last name" />
+                                                        <label for="inputLastName">Nama belakang</label>
+                                                        @error('last_name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email"
+                                                <input class="form-control" id="inputEmail" type="email" name="email"
                                                     placeholder="name@example.com" />
                                                 <label for="inputEmail">Email</label>
+                                                @error('email')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputUsername" type="text"
+                                                    name="username" placeholder="viokenceng" />
+                                                <label for="inputUsername">Username</label>
+                                                @error('username')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputAddress" type="text" name="address"
+                                                    placeholder="Jl Ikan Duyung No 11" />
+                                                <label for="inputAddress">Alamat</label>
+                                                @error('address')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputPhone" type="number" name="phone"
+                                                    placeholder="Jl Ikan Duyung No 11" />
+                                                <label for="inputPhone">No telp</label>
+                                                @error('phone')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
                                                         <input class="form-control" id="inputPassword" type="password"
-                                                            placeholder="Create a password" />
+                                                            name="password" placeholder="Create a password" />
                                                         <label for="inputPassword">Password</label>
+                                                        @error('password')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
                                                         <input class="form-control" id="inputPasswordConfirm"
-                                                            type="password" placeholder="Confirm password" />
-                                                        <label for="inputPasswordConfirm">Konfirmasi
-                                                            Password</label>
+                                                            name="password_confirm" type="password"
+                                                            placeholder="Confirm password" />
+                                                        <label for="inputPasswordConfirm">Konfirmasi Password</label>
+                                                        @error('password_confirm')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="mt-4 mb-0">
                                                 <div class="d-grid">
-                                                    <a class="btn btn-primary btn-block py-3" href="login">Buat
-                                                        Akun</a>
+                                                    <button class="btn btn-primary btn-block py-3" type="submit">Buat
+                                                        Akun</button>
                                                 </div>
                                             </div>
                                         </form>

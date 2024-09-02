@@ -12,6 +12,7 @@ use App\Models\Peminjaman;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PeminjamanDetail;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\PeminjamanController;
@@ -426,5 +427,11 @@ class PagesController extends Controller
         return view('general.pengaturan', [
             'level'  => 'admin',
         ]);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }

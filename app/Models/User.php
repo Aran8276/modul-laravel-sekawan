@@ -15,13 +15,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    // Kenapa kok nggak login? Karena: https://stackoverflow.com/questions/21603347/laravel-authattempt-will-not-persist-login
+    protected $primaryKey = 'user_id';
+
     protected $fillable = [
         'user_id',
         'user_nama',
         'user_alamat',
         'user_username',
+        'user_password',
         'user_email',
         'user_notelp',
+        'user_level',
     ];
 
     /**
@@ -45,5 +51,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function register($data)
+    {
+        return self::create($data);
     }
 }

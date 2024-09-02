@@ -15,11 +15,11 @@ return new class extends Migration
             $table->string('user_id', length: 16);
             $table->string('user_nama', length: 50);
             $table->string('user_alamat', length: 50);
-            $table->string('user_username', length: 50);
+            $table->string('user_username', length: 50)->unique();
             $table->string('user_email', length: 50)->unique();
             $table->char('user_notelp', length: 13);
-            $table->string('user_password', length: 50);
-            $table->enum('level', ['admin', 'anggota']);
+            $table->string('user_password');
+            $table->enum('level', ['admin', 'anggota'])->default('anggota');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -49,7 +49,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+        // Schema::dropIfExists('password_reset_tokens');
+        // Schema::dropIfExists('sessions');
     }
 };
