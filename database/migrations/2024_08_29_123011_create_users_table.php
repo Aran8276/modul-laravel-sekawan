@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('user_username', length: 50)->unique();
             $table->string('user_email', length: 50)->unique();
             $table->char('user_notelp', length: 13);
-            $table->string('user_password');
+            $table->string('password');
             $table->enum('level', ['admin', 'anggota'])->default('anggota');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

@@ -9,6 +9,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PenerbitController;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\InvertedAuthMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 
 // Route::get('/tambahkan-buku', [BukuController::class, 'showView'])->name('view.buku');
@@ -27,7 +28,7 @@ Route::get('/test-bootstrap', function () {
 // https://github.com/Aran8276/library-app/blob/main/app/Http/Middleware/CheckIsAdminRoleMiddleware.php
 Route::get('/auth-test', function () {
     if (Auth::check())
-        return Auth::user()->user_username;
+        return Auth::user()->user_email;
     else
         return "Not logged in";
 });
@@ -41,8 +42,10 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(PagesController::class)->group(function () {
     // Public
-    Route::get('/login', 'loginPage')->name('login');
-    Route::get('/register', 'registerPage')->name('register');
+    Route::middleware(InvertedAuthMiddleware::class)->group(function () {
+        Route::get('/login', 'loginPage')->name('login');
+        Route::get('/register', 'registerPage')->name('register');
+    });
 
     // Siswa
     Route::middleware(AuthMiddleware::class)->group(function () {

@@ -29,14 +29,18 @@ class AuthController extends Controller
             'user_username' => $request->username,
             'user_email' => $request->email,
             'user_notelp' => $request->phone,
-            'user_password' => bcrypt($request->password),
+            'password' => bcrypt($request->password),
             'level' => 'anggota',
         ];
 
         $user = User::register($data);
 
         if ($user) {
-            Auth::login($user);
+            $credentials = [
+                'user_username' => $request->username,
+                'password' => $request->password
+            ];
+            Auth::attempt($credentials);
             return redirect()->route('dashboard');
         }
 
@@ -47,17 +51,11 @@ class AuthController extends Controller
     {
         $credentials = [
             'user_username' => $request->username,
-            'user_password' => $request->password
+            'password' => $request->password
         ];
 
-        $user = User::where('user_username', $credentials['user_username'])->first();
-
-        if ($user && Hash::check($credentials['user_password'], $user->user_password)) {
-            Auth::login($user);
-
-            // Debugging Time!: https://stackoverflow.com/questions/21603347/laravel-authattempt-will-not-persist-login (Lihat model `User`)
-            // return 'User logged in: ' . $user->user_username;
-
+        // Auth::login tidak bisa (akan melogin user ke user paling terbaru walaupun user ketemu, D:)
+        if (Auth::attempt($credentials)) {
             return redirect()->route('dashboard');
         } else {
             return back()->withErrors([

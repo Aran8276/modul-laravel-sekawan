@@ -55,6 +55,9 @@
     @if ($level == 'admin')
         <a href="/dashboard">Masuk Mode Siswa</a>
     @elseif($level == 'siswa' && Auth::user()->level == 'admin')
-        <a href="/admin/dashboard">Masuk Mode Admin</a>
+        <div>
+            <h3 class="text-warning">*Peringatan: Anda adalah sebuah admin di halaman siswa*</h3>
+            <a href="/admin/dashboard">Masuk Mode Admin</a>
+        </div>
     @endif
 @endsection
