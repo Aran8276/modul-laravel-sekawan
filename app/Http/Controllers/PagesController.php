@@ -52,6 +52,7 @@ class PagesController extends Controller
                     'buku_judul' => $buku->buku_judul,
                     'buku_isbn' => $buku->buku_isbn,
                     'buku_thnterbit' => $buku->buku_thnterbit,
+                    'buku_urlgambar' => $buku->buku_urlgambar,
                     'buku_penulis' => $buku->penulis->penulis_nama,
                     'buku_kategori' => $buku->kategori->kategori_nama,
                     'buku_penerbit' => $buku->penerbit->penerbit_nama,
@@ -73,6 +74,7 @@ class PagesController extends Controller
                 'buku_judul' => $buku->buku_judul,
                 'buku_isbn' => $buku->buku_isbn,
                 'buku_thnterbit' => $buku->buku_thnterbit,
+                'buku_urlgambar' => $buku->buku_urlgambar,
                 'buku_penulis' => $buku->penulis->penulis_nama,
                 'buku_kategori' => $buku->kategori->kategori_nama,
                 'buku_penerbit' => $buku->penerbit->penerbit_nama,
@@ -91,7 +93,7 @@ class PagesController extends Controller
     public function pinjamBuku($id)
     {
         // $user_id = 'VXQvbwjkAwEN9NWb';  
-        $user_id = 'ThisUserIsUnique';  //USER ID BISA DIGANTI DISINI UTK SESSION NTI
+        $user_id = Auth::user()->user_id;  //USER ID BISA DIGANTI DISINI UTK SESSION NTI
         $buku_detail = Buku::where('buku_id', $id)->first();
         $peminjaman_id = Str::random(16);
         $current_date = date("Y-m-d");
@@ -117,7 +119,7 @@ class PagesController extends Controller
     public function peminjamanPage()
     {
         // $user_id = 'VXQvbwjkAwEN9NWb';  
-        $user_id = 'ThisUserIsUnique';  //USER ID BISA DIGANTI DISINI UTK SESSION NTI
+        $user_id = Auth::user()->user_id;  //USER ID BISA DIGANTI DISINI UTK SESSION NTI
 
         // Pemahaman lagi di https://laravel.com/docs/11.x/eloquent-relationships#querying-relationship-existence
         $peminjaman_detail_all = PeminjamanDetail::with(['peminjaman_content', 'buku_content'])
@@ -245,9 +247,17 @@ class PagesController extends Controller
         }
 
         if ($action == 'delete') {
-            $data = Buku::find($request->id);
+            // Kompleks juga ini :(  syntax error, unexpected token ";" 
+            $peminjamanIds = Peminjaman::whereHas('buku', function ($query) use ($request) {
+                $query->where('buku_id', $request->id);
+            })->pluck('peminjaman_id');
+
+            Peminjaman::whereIn('peminjaman_id', $peminjamanIds)->delete();
+
             BukuController::delete($request->id);
-            return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku ' . $data->buku_nama . ' berhasil dihapus!');
+
+
+            return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku berhasil dihapus!');
         }
 
         if ($action == 'delete-rak') {
@@ -369,6 +379,8 @@ class PagesController extends Controller
         }
 
         $peminjaman_all = Peminjaman::with(['user', 'peminjamanDetail', 'buku'])->get();
+
+        // return $peminjaman_all;
 
         if ($action == 'create') {
             $user_all = User::all();

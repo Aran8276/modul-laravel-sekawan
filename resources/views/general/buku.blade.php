@@ -319,7 +319,7 @@
 @elseif($action == 'create')
     @section('content_subtitle', 'Form edit rak buku')
     <div class="mb-5">
-        <form action="{{ route('action.buku.create') }}" method="POST">
+        <form action="{{ route('action.buku.create') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row gap-3">
                 <div class="col-12 col-md-4 form-group">
@@ -411,6 +411,13 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
+                <div class="col-12 col-md-4 form-group">
+                    <label for="buku_gambar" class="form-label">Gambar Buku</label>
+                    <input type="file" name="buku_gambar" id="buku_gambar" class="form-control" />
+                    @error('buku_gambar')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
             <div class="row my-3">
                 <div class="col-12 col-md-4">
@@ -424,7 +431,8 @@
 @elseif($action == 'edit')
     @section('content_subtitle', 'Form edit buku')
     <div class="mb-5">
-        <form action="{{ route('action.buku.update', ['id' => $editID]) }}" method="POST">
+        <form action="{{ route('action.buku.update', ['id' => $editID]) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row gap-3">
@@ -526,6 +534,35 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
+
+
+
+
+
+
+
+
+
+
+                <div class="col-12 col-md-4 form-group">
+                    <label for="buku_gambar" class="form-label">Gambar Buku</label>
+                    <input type="file" name="buku_gambar" id="buku_gambar" class="form-control" />
+                    @error('buku_gambar')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
             <div class="row my-3">
                 <div class="col-12 col-md-4">
@@ -564,7 +601,8 @@
         @foreach ($data_buku as $buku)
             <div class="card col-12 col-md-4 col-lg-3">
                 <div class="card-body">
-                    <img src="/img/book.png" alt="Bulan" class="book-img" />
+                    <img src="{{ asset('storage/buku_pictures/' . basename($buku['buku_urlgambar'])) }}"
+                        alt="Bulan" class="book-img" />
                     <hr />
                     <p class="text-center fw-bolder fs-4 my-0">
                         {{ $buku['buku_judul'] }}

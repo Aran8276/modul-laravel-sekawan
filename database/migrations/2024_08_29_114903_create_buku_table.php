@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('buku_kategori_id', length: 16);
             $table->string('buku_penerbit_id', length: 16);
             $table->string('buku_rak_id', length: 16);
+            $table->string('buku_urlgambar')->nullable();
 
             $table->foreign('buku_penulis_id')->references('penulis_id')->on('penulis')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('buku_kategori_id')->references('kategori_id')->on('kategori')->onDelete('cascade')->onUpdate('cascade');

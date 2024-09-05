@@ -48,6 +48,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            // WAJIB MENJADIKAN SESSION MENJADI STRING KARENA KOLUM `user_id` pada `user` adalah string / varchar
+            // ASLINYA MENJADI bigint / autoincrement?
+            'user_id' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

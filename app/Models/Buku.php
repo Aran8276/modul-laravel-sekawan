@@ -7,6 +7,7 @@ use App\Models\Penulis;
 use App\Models\Kategori;
 use App\Models\Penerbit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Buku extends Model
@@ -26,7 +27,33 @@ class Buku extends Model
         'buku_judul',
         'buku_isbn',
         'buku_thnterbit',
+        'buku_urlgambar',
     ];
+
+    protected static function imageUpload($id, $data)
+    {
+        $buku = self::find($id);
+
+        if ($buku->buku_urlgambar) {
+            Storage::delete($buku->buku_urlgambar);
+        }
+
+        if ($data) {
+            $path = $data->store('public/buku_pictures');
+            $buku->buku_urlgambar = $path;
+        }
+
+        $buku->save();
+    }
+
+    protected static function imageDelete($id)
+    {
+        $buku = self::find($id);
+
+        if ($buku->buku_urlgambar) {
+            Storage::delete($buku->buku_urlgambar);
+        }
+    }
 
     public function penulis()
     {

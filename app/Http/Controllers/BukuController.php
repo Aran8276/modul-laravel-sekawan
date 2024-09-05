@@ -26,6 +26,12 @@ class BukuController extends Controller
 
         Buku::create($data);
 
+        if ($request->hasFile('buku_gambar')) {
+            $data = $request->file('buku_gambar');
+            Buku::imageUpload($id, $data);
+            return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku baru berhasil ditambahkan!');
+        }
+
         return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku baru berhasil ditambahkan!');
     }
 
@@ -43,11 +49,18 @@ class BukuController extends Controller
 
         Buku::where('buku_id', $id)->update($data);
 
+        if ($request->hasFile('buku_gambar')) {
+            $data = $request->file('buku_gambar');
+            Buku::imageUpload($id, $data);
+            return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku baru berhasil ditambahkan!');
+        }
+
         return redirect()->route('admin.buku', ['action' => 'show'])->with('success', 'Buku ' . $request->buku_nama . ' berhasil diupdate!');
     }
 
     public static function delete($id)
     {
+        Buku::imageDelete($id);
         Buku::where('buku_id', $id)->delete();
     }
 }

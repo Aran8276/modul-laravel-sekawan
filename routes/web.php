@@ -28,7 +28,7 @@ Route::get('/test-bootstrap', function () {
 // https://github.com/Aran8276/library-app/blob/main/app/Http/Middleware/CheckIsAdminRoleMiddleware.php
 Route::get('/auth-test', function () {
     if (Auth::check())
-        return Auth::user()->user_email;
+        return Auth::user()->user_id;
     else
         return "Not logged in";
 });
