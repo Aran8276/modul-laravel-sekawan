@@ -12,6 +12,7 @@ use App\Models\Peminjaman;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PeminjamanDetail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PenerbitController;
@@ -44,7 +45,6 @@ class PagesController extends Controller
         $data_kategori = Kategori::all();
 
         if ($withCategoryFilter) {
-
             $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->where('buku_kategori_id', $withCategoryFilter)->get();
             $data = $buku_all->map(function ($buku) {
                 return [
@@ -59,6 +59,7 @@ class PagesController extends Controller
                     'buku_rak' => $buku->rak->rak_lokasi,
                 ];
             });
+
             return view('general.buku', [
                 'data_buku' => $data,
                 'data_kategori' => $data_kategori,
@@ -81,6 +82,8 @@ class PagesController extends Controller
                 'buku_rak' => $buku->rak->rak_lokasi,
             ];
         });
+
+        // return $data;
 
         return view('general.buku', [
             'data_buku' => $data,
@@ -110,8 +113,11 @@ class PagesController extends Controller
             'peminjaman_detail_buku_id' => $id
         ];
 
-        Peminjaman::create($data_peminjaman);
-        PeminjamanDetail::create($data_detail);
+        // Peminjaman::create($data_peminjaman);
+        // PeminjamanDetail::create($data_detail);
+
+        DB::table('peminjaman')->insert($data_peminjaman);
+        DB::table('peminjaman_detail')->insert($data_detail);
 
         return redirect()->route('peminjaman')->with('success', 'Anda telah meminjam buku ' . $buku_detail['buku_judul'] . '!');
     }
@@ -162,19 +168,30 @@ class PagesController extends Controller
         }
 
         $rak_all = Rak::all();
-        $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->get();
-        $buku_fk = $buku_all->map(function ($buku) {
-            return [
-                'buku_id' => $buku->buku_id,
-                'buku_judul' => $buku->buku_judul,
-                'buku_isbn' => $buku->buku_isbn,
-                'buku_thnterbit' => $buku->buku_thnterbit,
-                'buku_penulis' => $buku->penulis->penulis_nama,
-                'buku_kategori' => $buku->kategori->kategori_nama,
-                'buku_penerbit' => $buku->penerbit->penerbit_nama,
-                'buku_rak' => $buku->rak->rak_lokasi,
-            ];
-        });
+        // $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->get();
+
+        $buku_all = DB::table('buku')
+            ->join('penulis', 'buku.buku_penulis_id', '=', 'penulis.penulis_id')
+            ->join('kategori', 'buku.buku_kategori_id', '=', 'kategori.kategori_id')
+            ->join('rak', 'buku.buku_rak_id', '=', 'rak.rak_id')
+            ->join('penerbit', 'buku.buku_penerbit_id', '=', 'penerbit.penerbit_id')
+            ->select('buku.*', 'penulis.penulis_nama', 'kategori.kategori_nama', 'rak.rak_nama', 'rak.rak_lokasi', 'penerbit.penerbit_nama')
+            ->paginate(10);
+
+
+        // return $buku_all;
+        // $buku_fk = $buku_all->map(function ($buku) {
+        //     return [
+        //         'buku_id' => $buku->buku_id,
+        //         'buku_judul' => $buku->buku_judul,
+        //         'buku_isbn' => $buku->buku_isbn,
+        //         'buku_thnterbit' => $buku->buku_thnterbit,
+        //         'buku_penulis' => $buku->penulis_nama,
+        //         'buku_kategori' => $buku->kategori_nama,
+        //         'buku_penerbit' => $buku->penerbit_nama,
+        //         'buku_rak' => $buku->rak_lokasi,
+        //     ];
+        // });
 
         if ($action == 'edit-rak') {
             $data = Rak::find($request->id);
@@ -270,7 +287,7 @@ class PagesController extends Controller
             'level'  => 'admin',
             'action' => $action,
             'editID' => $request->id,
-            'data_buku' => $buku_fk,
+            'data_buku' => $buku_all,
             'data_rak' => $rak_all,
         ]);
     }

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\PeminjamanDetail;
 use App\Http\Requests\SimpanPeminjamanRequest;
+use Illuminate\Support\Facades\DB;
 
 class PeminjamanController extends Controller
 {

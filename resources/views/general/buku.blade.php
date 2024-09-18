@@ -15,7 +15,7 @@
         @section('content_subtitle', 'Daftar buku')
         <div>
             <div class="card shadow-sm py-2 px-3">
-                <table id="datatablesSimple">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -32,12 +32,12 @@
                         @foreach ($data_buku as $index => $buku)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $buku['buku_id'] }}</td>
-                                <td>{{ $buku['buku_judul'] }}</td>
-                                <td>{{ $buku['buku_penulis'] }}</td>
-                                <td>{{ $buku['buku_rak'] }}</td>
+                                <td>{{ $buku->buku_id }}</td>
+                                <td>{{ $buku->buku_judul }}</td>
+                                <td>{{ $buku->penulis_nama }}</td>
+                                <td>{{ $buku->rak_nama }}</td>
                                 <td style="text-align: center">
-                                    <a class="px-2" href="edit?id={{ $buku['buku_id'] }}">Edit</a>
+                                    <a class="px-2" href="edit?id={{ $buku->buku_id }}">Edit</a>
                                     <a class="text-danger" href="#" data-bs-toggle="modal"
                                         data-bs-target="#modalDelete{{ $index + 1 }}">Hapus</a>
                                     <!-- Button trigger modal -->
@@ -56,12 +56,12 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     Apakah anda yakin ingin menghapus buku buku
-                                                    {{ $buku['buku_judul'] }}?
+                                                    {{ $buku->buku_judul }}?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Tutup</button>
-                                                    <a href="delete?id={{ $buku['buku_id'] }}"
+                                                    <a href="delete?id={{ $buku->buku_id }}"
                                                         class="btn btn-danger">Konfirmasi</a>
                                                 </div>
                                             </div>
@@ -72,6 +72,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div>
+                    {{ $data_buku->links() }}
+                </div>
             </div>
             <div>
                 <a href="create" class="btn btn-primary my-3">Buat Buku</a>
@@ -105,14 +108,14 @@
                                         @foreach ($data_buku as $index => $buku)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $buku['buku_id'] }}</td>
-                                                <td>{{ $buku['buku_judul'] }}</td>
-                                                <td>{{ $buku['buku_penulis'] }}</td>
-                                                <td>{{ $buku['buku_penerbit'] }}</td>
-                                                <td>{{ $buku['buku_thnterbit'] }}</td>
-                                                <td>{{ $buku['buku_kategori'] }}</td>
-                                                <td>{{ $buku['buku_rak'] }}</td>
-                                                <td>{{ $buku['buku_isbn'] }}</td>
+                                                <td>{{ $buku->buku_id }}</td>
+                                                <td>{{ $buku->buku_judul }}</td>
+                                                <td>{{ $buku->penulis_nama }}</td>
+                                                <td>{{ $buku->penerbit_nama }}</td>
+                                                <td>{{ $buku->buku_thnterbit }}</td>
+                                                <td>{{ $buku->kategori_nama }}</td>
+                                                <td>{{ $buku->rak_nama }}</td>
+                                                <td>{{ $buku->buku_isbn }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -457,7 +460,7 @@
 
                         @foreach ($data_fk['penulis'] as $data)
                             <option value="{{ $data->penulis_id }}"
-                                {{ $data->penulis_nama == $data_buku[0]['buku_penulis'] ? 'selected' : '' }}>
+                                {{ $data->penulis_nama == $data_buku[0]['penulis_nama'] ? 'selected' : '' }}>
                                 {{ $data->penulis_nama }}
                             </option>
                         @endforeach
@@ -474,7 +477,7 @@
                         </option>
                         @foreach ($data_fk['penerbit'] as $data)
                             <option value="{{ $data->penerbit_id }}"
-                                {{ $data->penerbit_nama == $data_buku[0]['buku_penerbit'] ? 'selected' : '' }}>
+                                {{ $data->penerbit_nama == $data_buku[0]['penerbit_nama'] ? 'selected' : '' }}>
                                 {{ $data->penerbit_nama }}
                             </option>
                         @endforeach
@@ -499,7 +502,7 @@
                         </option>
                         @foreach ($data_fk['kategori'] as $data)
                             <option value="{{ $data->kategori_id }}"
-                                {{ $data->kategori_nama == $data_buku[0]['buku_kategori'] ? 'selected' : '' }}>
+                                {{ $data->kategori_nama == $data_buku[0]['kategori_nama'] ? 'selected' : '' }}>
                                 {{ $data->kategori_nama }}
                             </option>
                         @endforeach
@@ -517,7 +520,7 @@
                         </option>
                         @foreach ($data_fk['rak'] as $data)
                             <option value="{{ $data->rak_id }}"
-                                {{ $data->rak_lokasi == $data_buku[0]['buku_rak'] ? 'selected' : '' }}>
+                                {{ $data->rak_lokasi == $data_buku[0]['rak_nama'] ? 'selected' : '' }}>
                                 {{ $data->rak_nama }} ({{ $data->rak_lokasi }})
                             </option>
                         @endforeach
@@ -551,18 +554,6 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
             <div class="row my-3">
                 <div class="col-12 col-md-4">
@@ -657,8 +648,7 @@
                     </div>
                 </div>
             </div>
-        @endforeach
-        {{-- <div class="card col-12 col-md-4 col-lg-3">
+        @endforeach {{-- <div class="card col-12 col-md-4 col-lg-3">
             <div class="card-body">
                 <img src="./img/book.png" alt="Bulan" class="book-img" />
                 <hr />
