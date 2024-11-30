@@ -45,8 +45,11 @@ class PagesController extends Controller
         $data_kategori = Kategori::all();
 
         if ($withCategoryFilter) {
-            $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->where('buku_kategori_id', $withCategoryFilter)->get();
-            $data = $buku_all->map(function ($buku) {
+            $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])
+                ->where('buku_kategori_id', $withCategoryFilter)
+                ->paginate(10);
+
+            $data = collect($buku_all->items())->map(function ($buku) {
                 return [
                     'buku_id' => $buku->buku_id,
                     'buku_judul' => $buku->buku_judul,
@@ -63,13 +66,14 @@ class PagesController extends Controller
             return view('general.buku', [
                 'data_buku' => $data,
                 'data_kategori' => $data_kategori,
+                'pagination' => $buku_all,
                 'level'  => 'siswa',
                 'action' => 'siswa'
             ]);
         }
 
-        $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->get();
-        $data = $buku_all->map(function ($buku) {
+        $buku_all = Buku::with(['penulis', 'kategori', 'penerbit', 'rak'])->paginate(10);
+        $data = collect($buku_all->items())->map(function ($buku) {
             return [
                 'buku_id' => $buku->buku_id,
                 'buku_judul' => $buku->buku_judul,
@@ -89,6 +93,7 @@ class PagesController extends Controller
             'data_buku' => $data,
             'data_kategori' => $data_kategori,
             'level'  => 'siswa',
+            'pagination' => $buku_all,
             'action' => 'siswa'
         ]);
     }
@@ -137,6 +142,9 @@ class PagesController extends Controller
             )
             ->get();
 
+
+
+
         // return $peminjaman_detail_all;
 
         return view('general.peminjaman', [
@@ -148,7 +156,10 @@ class PagesController extends Controller
 
     public function pengaturanPage()
     {
+        $user = Auth::user();
+
         return view('general.pengaturan', [
+            'user' => $user,
             'level'  => 'siswa',
             'action' => 'siswa'
         ]);
@@ -180,6 +191,9 @@ class PagesController extends Controller
 
 
         // return $buku_all;
+
+
+        // return $buku_all;
         // $buku_fk = $buku_all->map(function ($buku) {
         //     return [
         //         'buku_id' => $buku->buku_id,
@@ -202,6 +216,7 @@ class PagesController extends Controller
                 'data_rak' => $data,
             ]);
         }
+
 
         if ($action == 'create') {
             $rak_fk_field = Rak::select('rak_id', 'rak_nama', 'rak_lokasi')->get();
@@ -252,8 +267,8 @@ class PagesController extends Controller
                 'penerbit' => $penerbit_fk_field,
             ];
 
+            // return $data_fk;
             // return $buku_fk_select;
-
             return view('general.buku', [
                 'level'  => 'admin',
                 'action' => $action,
@@ -453,7 +468,10 @@ class PagesController extends Controller
 
     public function adminPengaturanPage()
     {
+        $user = Auth::user();
+
         return view('general.pengaturan', [
+            'user' => $user,
             'level'  => 'admin',
         ]);
     }

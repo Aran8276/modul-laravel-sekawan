@@ -59,7 +59,7 @@ Route::controller(PagesController::class)->group(function () {
         Route::get('/pengaturan', 'pengaturanPage')->name('pengaturan');
 
         Route::get('/logout', 'logout')->name('action.logout');
-
+        Route::put('/pengaturan', [AuthController::class, 'updateProfile'])->name('action.update.profile');
 
         // Admin (middleware mungkin nanti)
         Route::middleware(RoleMiddleware::class)->group(function () {
@@ -137,3 +137,8 @@ Buku, Kategori Buku, Peminjaman, Peminjaman Detail, Penulis, Rak, User
 // Route::get('/siswa', function () {
 //     return view('nama-view');
 // });
+
+
+
+
+Route::get('/createrak', [PagesController::class, 'create_rak'])->name('createrak');

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rak', function (Blueprint $table) {
-            $table->string('rak_id', length: 16);
-            $table->string('rak_nama', length: 20);
-            $table->string('rak_lokasi', length: 50);
+            $table->string('rak_id');
+            $table->string('rak_nama');
+            $table->string('rak_lokasi');
             $table->integer('rak_kapasitas');
             $table->timestamps();
 

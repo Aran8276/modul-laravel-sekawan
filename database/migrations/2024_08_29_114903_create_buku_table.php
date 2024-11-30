@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buku', function (Blueprint $table) {
-            $table->string('buku_id', length: 16);
-            $table->string('buku_judul', length: 40);
-            $table->char('buku_isbn', length: 16);
-            $table->char('buku_thnterbit', length: 4);
+            $table->string('buku_id');
+            $table->string('buku_judul');
+            $table->char('buku_isbn');
+            $table->char('buku_thnterbit');
             $table->timestamps();
-            $table->string('buku_penulis_id', length: 16);
-            $table->string('buku_kategori_id', length: 16);
-            $table->string('buku_penerbit_id', length: 16);
-            $table->string('buku_rak_id', length: 16);
+            $table->string('buku_penulis_id');
+            $table->string('buku_kategori_id');
+            $table->string('buku_penerbit_id');
+            $table->string('buku_rak_id');
             $table->string('buku_urlgambar')->nullable();
 
             $table->foreign('buku_penulis_id')->references('penulis_id')->on('penulis')->onDelete('cascade')->onUpdate('cascade');

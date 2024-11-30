@@ -27,8 +27,8 @@ class SimpanBukuRequest extends FormRequest
             'buku_penerbit_id' => 'required',
             'buku_rak_id' => 'required',
             'buku_judul' => 'max:40|required',
-            'buku_isbn' => 'max:16|required',
-            'buku_thnterbit' => 'max:4|required',
+            'buku_isbn' => 'max:16|numeric|required',
+            'buku_thnterbit' => 'max:4|numeric|required',
         ];
     }
 }

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
+    /** php artisan make:middleware NamaMiddleware
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
@@ -18,7 +18,7 @@ class RoleMiddleware
     {
         // Lihat https://laravel.com/docs/11.x/middleware#middleware-aliases utk penggunaan ini (`kernel.php` terlalu tua)
         if (!(Auth::user()->level == 'admin')) {
-            abort(403);
+            abort(403); 
         }
         return $next($request);
     }

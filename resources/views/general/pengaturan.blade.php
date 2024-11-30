@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('title', 'Dashboard - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
+@section('title', 'Pengaturan - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
 
 @section('content_title', 'Pengaturan ' . ($level == 'admin' ? 'Administrator' : ''))
 @section('content_subtitle', 'Pengaturan akun ' . ($level == 'admin' ? 'admin' : 'siswa'))
@@ -12,30 +12,35 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <form action="">
+    <form action="{{ route('action.update.profile') }}" method="POST">
+        @csrf
+        @method('PUT')
         <div class="row gap-3">
             <div class="col-12 col-md-4 form-group">
-                <label for="name" class="form-label">
+                <label for="user_nama" class="form-label">
                     Nama *</label>
-                <input type="text" name="name" id="name" class="form-control"
+                <input value="{{ $user->user_nama }}" type="text" name="user_nama" id="user_nama" class="form-control"
                     placeholder="Masukkan nama panjang" />
             </div>
             <div class="col-12 col-md-4 form-group">
-                <label for="username" class="form-label">Username *</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="Masukkan username" />
+                <label for="user_username" class="form-label">Username *</label>
+                <input value="{{ $user->user_username }}" type="text" name="user_username" id="user_username"
+                    class="form-control" placeholder="Masukkan username" />
             </div>
             <div class="col-12 col-md-4 form-group">
-                <label for="address" class="form-label">Alamat *</label>
-                <input type="text" name="address" id="address" class="form-control" placeholder="Masukkan alamat" />
+                <label for="user_alamat" class="form-label">Alamat *</label>
+                <input value="{{ $user->user_alamat }}" type="text" name="user_alamat" id="user_alamat"
+                    class="form-control" placeholder="Masukkan alamat" />
             </div>
             <div class="col-12 col-md-4 form-group">
-                <label for="phone" class="form-label">No Hp *</label>
-                <input type="text" name="phone" id="phone" class="form-control"
-                    placeholder="Masukkan nomor telp" />
+                <label for="user_notelp" class="form-label">No Hp *</label>
+                <input value="{{ $user->user_notelp }}" type="text" name="user_notelp" id="user_notelp"
+                    class="form-control" placeholder="Masukkan nomor telp" />
             </div>
             <div class="col-12 col-md-4 form-group">
-                <label for="email" class="form-label">Email *</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="Masukkan email" />
+                <label for="user_email" class="form-label">Email *</label>
+                <input value="{{ $user->user_email }}" type="email" name="user_email" id="user_email" class="form-control"
+                    placeholder="Masukkan email" />
             </div>
             <div class="col-12 col-md-4 form-group">
                 <label for="password" class="form-label">Password *</label>

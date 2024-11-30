@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('title', 'Dashboard - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
+@section('title', 'Penulis - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
 
 @section('content_title', 'Penulis')
 

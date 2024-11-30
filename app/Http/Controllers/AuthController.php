@@ -56,11 +56,40 @@ class AuthController extends Controller
 
         // Auth::login tidak bisa (akan melogin user ke user paling terbaru walaupun user ketemu, D:)
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->level == "admin") {
+                return redirect()->route('admin.dashboard');
+            }
+
             return redirect()->route('dashboard');
         } else {
             return back()->withErrors([
                 'message' => 'Username atau password Anda salah.',
             ]);
         }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $id = Auth::user()->user_id;
+        $level = Auth::user()->level;
+
+        $data = [
+            'user_nama' => $request->user_nama,
+            'user_alamat' => $request->user_alamat,
+            'user_username' => $request->user_username,
+            'user_email' => $request->user_email,
+            'user_notelp' => $request->user_notelp,
+            'password' => bcrypt($request->password),
+        ];
+
+        User::where('user_id', $id)->update($data);
+
+        if ($level == "admin") {
+            return redirect()->route('admin.pengaturan', ['action' => 'show'])->with('success', 'Profil berhasil diupdate!');
+        }
+
+        return redirect()->route('pengaturan', ['action' => 'show'])->with('success', 'Profil berhasil diupdate!');
     }
 }

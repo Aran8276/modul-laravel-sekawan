@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('penerbit', function (Blueprint $table) {
-            $table->string('penerbit_id', length: 16);
-            $table->string('penerbit_nama', length: 50);
-            $table->string('penerbit_alamat', length: 50);
-            $table->char('penerbit_notelp', length: 13);
-            $table->string('penerbit_email', length: 50);
+            $table->string('penerbit_id');
+            $table->string('penerbit_nama');
+            $table->string('penerbit_alamat');
+            $table->char('penerbit_notelp');
+            $table->string('penerbit_email');
             $table->timestamps();
 
             $table->primary('penerbit_id');

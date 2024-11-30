@@ -22,6 +22,7 @@ class SimpanPeminjamanRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'peminjaman_denda' => 'max:5000000|numeric',
             'peminjaman_note' => 'max:100',
         ];
     }

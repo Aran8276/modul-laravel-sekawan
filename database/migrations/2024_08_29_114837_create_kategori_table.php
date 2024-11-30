@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kategori', function (Blueprint $table) {
-            $table->string('kategori_id', length: 16);
-            $table->string('kategori_nama', length: 20);
+            $table->string('kategori_id');
+            $table->string('kategori_nama');
             $table->timestamps();
 
             $table->primary('kategori_id');

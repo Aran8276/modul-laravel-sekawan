@@ -1,6 +1,6 @@
 @extends('template.layout')
 
-@section('title', 'Dashboard - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
+@section('title', 'Buku - ' . ($level == 'admin' ? 'Admin' : '') . ' Perpustakaan')
 
 @section('content_title', 'Buku')
 
@@ -85,7 +85,7 @@
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="modalTable">Table buku</h1>
+                                <h1 class="modal-title fs-5" id="modalTable">Table Buku</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -460,7 +460,7 @@
 
                         @foreach ($data_fk['penulis'] as $data)
                             <option value="{{ $data->penulis_id }}"
-                                {{ $data->penulis_nama == $data_buku[0]['penulis_nama'] ? 'selected' : '' }}>
+                                {{ $data->penulis_nama == $data['penulis_nama'] ? 'selected' : '' }}>
                                 {{ $data->penulis_nama }}
                             </option>
                         @endforeach
@@ -477,7 +477,7 @@
                         </option>
                         @foreach ($data_fk['penerbit'] as $data)
                             <option value="{{ $data->penerbit_id }}"
-                                {{ $data->penerbit_nama == $data_buku[0]['penerbit_nama'] ? 'selected' : '' }}>
+                                {{ $data->penerbit_nama == $data['penerbit_nama'] ? 'selected' : '' }}>
                                 {{ $data->penerbit_nama }}
                             </option>
                         @endforeach
@@ -488,8 +488,9 @@
                 </div>
                 <div class="col-12 col-md-4 form-group">
                     <label for="buku_thnterbit" class="form-label">Tahun Terbit *</label>
-                    <input type="text" name="buku_thnterbit" id="buku_thnterbit" class="form-control"
-                        placeholder="Masukkan tahun terbit" value="{{ $data_buku[0]['buku_thnterbit'] }}" />
+                    <input value="{{ $data_buku[0]['buku_thnterbit'] }}" type="text" name="buku_thnterbit"
+                        id="buku_thnterbit" class="form-control" placeholder="Masukkan tahun terbit"
+                        value="{{ $data['buku_thnterbit'] }}" />
                     @error('buku_thnterbit')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -502,7 +503,7 @@
                         </option>
                         @foreach ($data_fk['kategori'] as $data)
                             <option value="{{ $data->kategori_id }}"
-                                {{ $data->kategori_nama == $data_buku[0]['kategori_nama'] ? 'selected' : '' }}>
+                                {{ $data->kategori_nama == $data['kategori_nama'] ? 'selected' : '' }}>
                                 {{ $data->kategori_nama }}
                             </option>
                         @endforeach
@@ -520,7 +521,7 @@
                         </option>
                         @foreach ($data_fk['rak'] as $data)
                             <option value="{{ $data->rak_id }}"
-                                {{ $data->rak_lokasi == $data_buku[0]['rak_nama'] ? 'selected' : '' }}>
+                                {{ $data->rak_lokasi == $data['rak_nama'] ? 'selected' : '' }}>
                                 {{ $data->rak_nama }} ({{ $data->rak_lokasi }})
                             </option>
                         @endforeach
@@ -531,22 +532,12 @@
                 </div>
                 <div class="col-12 col-md-4 form-group">
                     <label for="buku_isbn" class="form-label">Nomor ISBN *</label>
-                    <input type="text" name="buku_isbn" id="buku_isbn" class="form-control"
-                        placeholder="Masukkan nomor ISBN" value="{{ $data_buku[0]['buku_isbn'] }}" />
+                    <input value="{{ $data_buku[0]['buku_isbn'] }}" type="text" name="buku_isbn" id="buku_isbn"
+                        class="form-control" placeholder="Masukkan nomor ISBN" value="{{ $data['buku_isbn'] }}" />
                     @error('buku_isbn')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-
-
-
-
-
-
-
-
-
-
                 <div class="col-12 col-md-4 form-group">
                     <label for="buku_gambar" class="form-label">Gambar Buku</label>
                     <input type="file" name="buku_gambar" id="buku_gambar" class="form-control" />
@@ -575,25 +566,17 @@
                 {{ $kategori['kategori_nama'] }}
             </a>
         @endforeach
-
-        {{-- <button type="button" class="btn btn-outline-dark mx-auto">
-            Komik
-        </button>
-
-        <button type="button" class="btn btn-outline-dark mx-auto">
-            Anak-anak
-        </button>
-
-        <button type="button" class="btn btn-outline-dark mx-auto">
-            Petunjuk manual
-        </button> --}}
     </div>
     <div class="row gap-4 mt-4 mb-5">
         @foreach ($data_buku as $buku)
             <div class="card col-12 col-md-4 col-lg-3">
                 <div class="card-body">
-                    <img src="{{ asset('storage/buku_pictures/' . basename($buku['buku_urlgambar'])) }}"
-                        alt="Bulan" class="book-img" />
+                    @if ($buku['buku_urlgambar'] == '')
+                        <img src="{{ asset('/img/book.png') }}" alt="Bulan" class="book-img" />
+                    @else
+                        <img src="{{ asset('storage/buku_pictures/' . basename($buku['buku_urlgambar'])) }}"
+                            alt="Bulan" class="book-img" />
+                    @endif
                     <hr />
                     <p class="text-center fw-bolder fs-4 my-0">
                         {{ $buku['buku_judul'] }}
@@ -679,5 +662,6 @@
             </div>
         </div> --}}
     </div>
+    <div class="my-5">{{ $pagination->links() }}</div>
 @endif
 @endsection
